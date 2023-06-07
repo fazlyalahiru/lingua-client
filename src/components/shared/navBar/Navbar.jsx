@@ -1,17 +1,19 @@
 import { Link, NavLink } from "react-router-dom";
-import Container from "./Container";
+import Container from "../Container";
 import { FaCookieBite } from "react-icons/fa";
-import { AiOutlineCaretDown } from "react-icons/ai";
+import { GrInsecure } from "react-icons/gr";
+import { AiOutlineCaretDown, AiOutlineUserAdd } from "react-icons/ai";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
 import { useState } from "react";
+import NavLogo from "./NavLogo";
 
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isGetStartedOpen, setIsGetStartedOpen] = useState(false);
   return (
-    <div>
+    <div className="shadow-sm py-2 ">
       <Container>
-        <div className="py-2">
+        <div className="py-2 ">
           <div className="relative flex items-center justify-between">
             {/* nav items */}
             <ul className="items-center hidden space-x-8 lg:flex  font-semibold">
@@ -19,7 +21,7 @@ const Navbar = () => {
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
-                    isActive ? "text-[#ff5722] #ff5722" : "text-black"
+                    isActive ? "text-[#42CBA8] #ff5722" : "text-black"
                   }>
                   Home
                 </NavLink>
@@ -28,7 +30,7 @@ const Navbar = () => {
                 <NavLink
                   to="/blog"
                   className={({ isActive }) =>
-                    isActive ? "text-[#ff5722]" : "text-black"
+                    isActive ? "text-[#42CBA8]" : "text-black"
                   }>
                   Blog
                 </NavLink>
@@ -36,10 +38,7 @@ const Navbar = () => {
             </ul>
             {/* Logo Section */}
             <Link to="/" className="inline-flex items-center">
-              <FaCookieBite className="h-6 w-6 text-[#ff5722]" />
-              <span className="ml-2  text-base md:text-2xl font-bold text-gray-800 uppercase">
-                Chef yard
-              </span>
+              <NavLogo></NavLogo>
             </Link>
             {/* login */}
             <div className="hidden lg:block">
@@ -63,16 +62,31 @@ const Navbar = () => {
                 </ul>
               </div> */}
               <div className="relative ">
-                <div
-                  className="flex justify-center items-center gap-2 bg-[#42CBA8] text-white px-2 md:px-6 py-1 md:py-2 rounded cursor-pointer"
+                <Link
+                  className="flex justify-center items-center gap-2 bg-[#42CBA8] text-white px-2 md:px-6 py-1 md:py-2 rounded"
                   onClick={() => setIsGetStartedOpen(!isGetStartedOpen)}>
                   <p>Get Started</p>
                   <AiOutlineCaretDown></AiOutlineCaretDown>
-                </div>
+                </Link>
                 {isGetStartedOpen && (
-                  <p className="absolute top-12 right-0 w-full z-10">
-                    This is drop down
-                  </p>
+                  <div className="absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-white overflow-hidden right-0 top-10">
+                    <div className="flex  flex-col cursor-pointer p-2">
+                      <NavLink
+                        to="/login"
+                        className="hover:bg-gray-100 transition-opacity p-2">
+                        <span className="flex justify-center items-center gap-1">
+                          <GrInsecure></GrInsecure> <p>Login</p>
+                        </span>
+                      </NavLink>
+                      <NavLink
+                        to="/register"
+                        className="hover:bg-gray-100 transition-opacity p-2">
+                        <span className="flex justify-center  items-center gap-1">
+                          <AiOutlineUserAdd></AiOutlineUserAdd> <p>Register</p>
+                        </span>
+                      </NavLink>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
@@ -93,7 +107,7 @@ const Navbar = () => {
                     <div className="flex items-center justify-between mb-4">
                       <div className="z-10">
                         <Link to="/" className="inline-flex items-center">
-                          <FaCookieBite className="h-6 w-6 text-[#ff5722]" />
+                          <FaCookieBite className="h-6 w-6 text-[#42CBA8]" />
                           <span className="ml-2 text-base font-bold  text-gray-800 uppercase">
                             Chef Yard
                           </span>
@@ -113,7 +127,7 @@ const Navbar = () => {
 
                     <div>
                       <Link to="/login">
-                        <button className="bg-[#ff5722] text-white px-6 py-1 md:py-2 rounded">
+                        <button className="bg-[#42CBA8] text-white px-6 py-1 md:py-2 rounded">
                           Login
                         </button>
                       </Link>
