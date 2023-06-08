@@ -54,25 +54,26 @@ const Navbar = () => {
                   tabIndex={0}
                   className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                   <li>
-                    <a>Item 1</a>
+                    <span>Item 1</span>
                   </li>
                   <li>
-                    <a>Item 2</a>
+                    <span>Item 2</span>
                   </li>
                 </ul>
               </div> */}
               <div className="relative ">
-                <Link
-                  className="flex justify-center items-center gap-2 bg-[#42CBA8] text-white px-2 md:px-6 py-1 md:py-2 rounded"
+                <p
+                  className="flex justify-center items-center gap-2 bg-[#42CBA8] text-white px-2 md:px-6 py-1 md:py-2 rounded cursor-pointer"
                   onClick={() => setIsGetStartedOpen(!isGetStartedOpen)}>
-                  <p>Get Started</p>
+                  <span>Get Started</span>
                   <AiOutlineCaretDown></AiOutlineCaretDown>
-                </Link>
+                </p>
                 {isGetStartedOpen && (
                   <div className="absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-white overflow-hidden right-0 top-10">
                     <div className="flex  flex-col cursor-pointer p-2">
                       <NavLink
                         to="/login"
+                        onClick={() => setIsGetStartedOpen(false)}
                         className="hover:bg-gray-100 transition-opacity p-2">
                         <span className="flex justify-center items-center gap-1">
                           <GrInsecure></GrInsecure> <p>Login</p>
@@ -80,6 +81,7 @@ const Navbar = () => {
                       </NavLink>
                       <NavLink
                         to="/register"
+                        onClick={() => setIsGetStartedOpen(false)}
                         className="hover:bg-gray-100 transition-opacity p-2">
                         <span className="flex justify-center  items-center gap-1">
                           <AiOutlineUserAdd></AiOutlineUserAdd> <p>Register</p>

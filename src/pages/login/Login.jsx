@@ -39,7 +39,7 @@ const Login = () => {
               Sign In
             </button>
             <p>
-              Do not have account?
+              Not a member yet?
               <Link
                 className="ms-2 text-[#42CBA8] hover:text-black"
                 to="/register">
