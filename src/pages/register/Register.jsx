@@ -6,11 +6,12 @@ import { AuthContext } from "../../providerders/AuthProviders";
 import { toast } from "react-hot-toast";
 // import { HiEye, HiEyeOff } from "react-icons/hi";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { insertUser } from "../../apis/user";
 
 const Register = () => {
   // show or hide pass
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -31,24 +32,33 @@ const Register = () => {
 
   // handle submit form
   const onSubmit = (data) => {
-    createUser(data.email, data.password).then(() => {
-      updateProfileInfo(data.name, data.photo)
-        .then(() => {
-          toast.success("User created successfully");
-          reset();
-        })
-        .catch((err) => {
-          console.log(err);
-          const errorMessage = err.message;
-          toast.error(errorMessage);
-        });
-    });
+    createUser(data.email, data.password)
+      .then((result) => {
+        updateProfileInfo(data.name, data.photo)
+          .then(() => {
+            console.log(result.user.email);
+            insertUser(result.user)
+            toast.success("User created successfully");
+            reset();
+          })
+          .catch((err) => {
+            console.log(err);
+            const errorMessage = err.message;
+            toast.error(errorMessage);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        const errorMessage = err.message;
+        toast.error(errorMessage);
+      });
   };
 
   // signin with google
   const handleSignInWithGoogle = () => {
     singnInWithGoogle()
-      .then(() => {
+      .then((response) => {
+        insertUser(response.user);
         toast.success("User created successfully");
       })
       .catch((err) => {

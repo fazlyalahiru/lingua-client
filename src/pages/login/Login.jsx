@@ -5,11 +5,12 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../providerders/AuthProviders";
 import { toast } from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { insertUser } from "../../apis/user";
 
 const Login = () => {
   // show or hide pass
   const [showPassword, setShowPassword] = useState(false);
-  const { signIn } = useContext(AuthContext);
+  const { signIn, singnInWithGoogle } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -25,6 +26,20 @@ const Login = () => {
       })
       .catch((err) => {
         toast.error(err.message);
+      });
+  };
+
+  // google singnin
+  // signin with google
+  const handleSignInWithGoogle = () => {
+    singnInWithGoogle()
+      .then((response) => {
+        insertUser(response.user);
+        toast.success("User created successfully");
+      })
+      .catch((err) => {
+        const errorMessage = err.message;
+        toast.error(errorMessage);
       });
   };
   return (
@@ -105,7 +120,9 @@ const Login = () => {
 
           <h4 className="mt-4 font-semibold text-center">- or -</h4>
           <div className="flex gap-4 py-2 justify-center">
-            <div className="flex items-center gap-2 border rounded px-4 py-2 hover:bg-black hover:text-white cursor-pointer w-full justify-center">
+            <div
+              onClick={handleSignInWithGoogle}
+              className="flex items-center gap-2 border rounded px-4 py-2 hover:bg-black hover:text-white cursor-pointer w-full justify-center">
               <FaGoogle />
               <button> Google</button>
             </div>
