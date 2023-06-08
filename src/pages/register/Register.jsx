@@ -4,8 +4,13 @@ import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providerders/AuthProviders";
 import { toast } from "react-hot-toast";
+// import { HiEye, HiEyeOff } from "react-icons/hi";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const Register = () => {
+  // show or hide pass
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const {
     register,
     handleSubmit,
@@ -14,7 +19,8 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { singnInWithGoogle, createUser } = useContext(AuthContext);
+  const { singnInWithGoogle, createUser, updateProfileInfo } =
+    useContext(AuthContext);
   // confirm password
   const [passwordMatch, setPasswordMatch] = useState(true);
   const handleConfirmPasswordChange = (e) => {
@@ -25,16 +31,18 @@ const Register = () => {
 
   // handle submit form
   const onSubmit = (data) => {
-    createUser(data.email, data.password)
-      .then(() => {
-        toast.success("User created successfully");
-        reset();
-      })
-      .catch((err) => {
-        console.log(err);
-        const errorMessage = err.message;
-        toast.error(errorMessage);
-      });
+    createUser(data.email, data.password).then(() => {
+      updateProfileInfo(data.name, data.photo)
+        .then(() => {
+          toast.success("User created successfully");
+          reset();
+        })
+        .catch((err) => {
+          console.log(err);
+          const errorMessage = err.message;
+          toast.error(errorMessage);
+        });
+    });
   };
 
   // signin with google
@@ -109,18 +117,29 @@ const Register = () => {
             {errors.gender && (
               <span className="text-red-500">{errors.gender.message}</span>
             )}
-
-            <input
-              type="password"
-              {...register("password", {
-                required: true,
-                minLength: 6,
-                maxLength: 15,
-                pattern: /(?=.*[!@#$&*])(?=.*[0-9])/,
-              })}
-              placeholder="Password"
-              className="input border border-gray-300 w-full block"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                {...register("password", {
+                  required: true,
+                  minLength: 6,
+                  maxLength: 15,
+                  pattern: /(?=.*[!@#$&*])(?=.*[0-9])/,
+                })}
+                placeholder="Password"
+                className="input border border-gray-300 w-full block"
+              />
+              <button
+                type="button"
+                className="absolute top-1/2 right-3 transform -translate-y-1/2 focus:outline-none"
+                onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? (
+                  <FiEyeOff size={15} className="text-gray-600" />
+                ) : (
+                  <FiEye size={15} className="text-gray-600" />
+                )}
+              </button>
+            </div>
             {errors.password?.type === "required" && (
               <p className="text-red-500">Password is required</p>
             )}
@@ -134,21 +153,32 @@ const Register = () => {
             )}
             {errors.password?.type === "pattern" && (
               <p className="text-red-600">
-               Password should contain atleast 1 special carecter and number
+                Password should contain atleast 1 special character and number
               </p>
             )}
-
-            <input
-              type="password"
-              {...register("confirmPassword", {
-                required: true,
-              })}
-              onChange={handleConfirmPasswordChange}
-              placeholder="Confirm password"
-              className={`input border  w-full block ${
-                !passwordMatch ? "border-red-500" : "border-gray-300"
-              }`}
-            />
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                {...register("confirmPassword", {
+                  required: true,
+                })}
+                onChange={handleConfirmPasswordChange}
+                placeholder="Confirm password"
+                className={`input border  w-full block ${
+                  !passwordMatch ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              <button
+                type="button"
+                className="absolute top-1/2 right-3 transform -translate-y-1/2 focus:outline-none"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                {showConfirmPassword ? (
+                  <FiEyeOff size={15} className="text-gray-600" />
+                ) : (
+                  <FiEye size={15} className="text-gray-600" />
+                )}
+              </button>
+            </div>
             {!passwordMatch && (
               <span className="text-red-500">Password do not match!</span>
             )}

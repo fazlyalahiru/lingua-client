@@ -1,8 +1,6 @@
 const Home = () => {
   return (
-    <div>
-<h1>click me</h1>
-    </div>
+<div>this is home</div>
   );
 };
 
