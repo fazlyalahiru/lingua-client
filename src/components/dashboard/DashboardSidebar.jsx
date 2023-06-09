@@ -7,6 +7,8 @@ import { Link, NavLink } from "react-router-dom";
 import { GrInsecure } from "react-icons/gr";
 import { BiBookBookmark, BiHomeSmile } from "react-icons/bi";
 import { HiOutlineAcademicCap } from "react-icons/hi2";
+import { instructorRequest } from "../../apis/user";
+import { toast } from "react-hot-toast";
 
 const Sidebar = () => {
   const { user } = useContext(AuthContext);
@@ -14,6 +16,17 @@ const Sidebar = () => {
   const [toggle, setToggle] = useState(false);
   const toggleHandler = (event) => {
     setToggle(event.target.checked);
+  };
+  // become an instructor
+  const handleInstructorRequest = () => {
+    instructorRequest(user)
+      .then((result) => {
+        console.log(result);
+        toast.success("you are an instructor");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -118,34 +131,27 @@ const Sidebar = () => {
                 Host
               </span>
             </label> */}
-            <button className="btn capitalize mt-4 bg-gray-200 hover:bg-gray-300 btn-block"> Become a instructor</button>
+            <button
+              className="btn capitalize mt-4 bg-gray-200 hover:bg-gray-300 btn-block"
+              onClick={handleInstructorRequest}>
+              {" "}
+              Become an instructor
+            </button>
             <div>
               <ul className="space-y-2.5 mt-6 text-gray-600 ">
-                <li
-                  className="flex items-center gap-1 hover:text-black"
-                 >
+                <li className="flex items-center gap-1 hover:text-black">
                   <BiHomeSmile></BiHomeSmile>
                   <Link to="/">Home</Link>
                 </li>
-                <li
-                  className="flex items-center gap-1 hover:text-black">
+                <li className="flex items-center gap-1 hover:text-black">
                   <HiOutlineAcademicCap></HiOutlineAcademicCap>
                   <Link to="/dashboard/add-class">Add new class</Link>
                 </li>
-                <li
-                  className="flex items-center gap-1 hover:text-black"
-                  >
+                <li className="flex items-center gap-1 hover:text-black">
                   <BiBookBookmark></BiBookBookmark>
-                  <Link to="/classes">Classes</Link>
+                  <Link to="/classes">My Classes</Link>
                 </li>
-                {user && (
-                  <li
-                    className="flex items-center gap-1 hover:text-black"
-                    >
-                    <MdOutlineSpaceDashboard></MdOutlineSpaceDashboard>
-                    <Link to="/dashboard">Dashboard</Link>
-                  </li>
-                )}
+                
               </ul>
             </div>
           </div>

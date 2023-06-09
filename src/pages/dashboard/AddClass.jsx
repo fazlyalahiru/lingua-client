@@ -4,18 +4,16 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { uploadImage } from "../../apis/imageUpload";
 import { uploadClass } from "../../apis/Classes";
-
+import { toast } from "react-hot-toast";
 
 const AddClass = () => {
   const {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors },
   } = useForm();
   const { user } = useContext(AuthContext);
-  const handleImageUpload = () => {};
   const onSubmit = (data) => {
     const image = data.image[0];
     console.log(image);
@@ -30,8 +28,19 @@ const AddClass = () => {
         price: parseFloat(data.price),
         totalSeat: parseFloat(data.totalSeat),
         image: res.data.display_url,
+        
       };
-      uploadClass(classDetails).then((res) => console.log(res)).catch(err=>console.log(err.message))
+      console.log(res.data)
+      uploadClass(classDetails)
+        .then((res) => {
+          if (res.insertedId) {
+            toast.success("Class added successfully");
+            reset();
+          }
+        })
+        .catch((err) => {
+          toast.error(err.message);
+        });
     });
   };
 
@@ -105,18 +114,12 @@ const AddClass = () => {
             <div className=" w-full mx-auto">
               <input
                 className="w-full ml-5 md:ml-12"
-                onChange={(event) => {
-                  handleImageUpload(event.target.files[0]);
-                }}
                 type="file"
                 {...register("image", { required: true })}
                 name="image"
                 accept="image/*"
               />
             </div>
-            {/* <div className="bg-[#4285f4] text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-[#4285f4]">
-                  upload image
-                </div> */}
           </label>
         </div>
 
