@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
@@ -9,6 +9,9 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { insertUser } from "../../apis/user";
 
 const Register = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || '/'
   // show or hide pass
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -37,9 +40,10 @@ const Register = () => {
         updateProfileInfo(data.name, data.photo)
           .then(() => {
             console.log(result.user.email);
-            insertUser(result.user)
+            insertUser(result.user);
             toast.success("User created successfully");
             reset();
+            navigate(from, { replace: true })
           })
           .catch((err) => {
             console.log(err);
@@ -60,6 +64,7 @@ const Register = () => {
       .then((response) => {
         insertUser(response.user);
         toast.success("User created successfully");
+        navigate(from, { replace: true })
       })
       .catch((err) => {
         const errorMessage = err.message;

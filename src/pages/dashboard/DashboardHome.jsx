@@ -9,7 +9,7 @@ const DashboardHome = () => {
         Welcome back, {user?.displayName}
       </p>
       <p className="font-semibol">
-        Your current role is: {role ? role : "User"}
+        Your current role is: {role ? role : "Student"}
       </p>
     </div>
   );

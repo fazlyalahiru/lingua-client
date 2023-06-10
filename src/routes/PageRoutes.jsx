@@ -7,6 +7,8 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import AddClass from "../pages/dashboard/AddClass";
 import Classes from "../pages/dashboard/Classes";
 import DashboardHome from "../pages/dashboard/DashboardHome";
+import PrivateRoute from "./PrivateRoute";
+import MySelectedClass from "../pages/dashboard/MySelectedClass";
 
 const router = createBrowserRouter([
   {
@@ -21,19 +23,24 @@ const router = createBrowserRouter([
         path: "/classes",
         element: <Classes></Classes>,
       },
+      {
+        path: "/login",
+        element: <Login></Login>,
+      },
+      {
+        path: "/register",
+        element: <Register></Register>,
+      },
     ],
   },
-  {
-    path: "/login",
-    element: <Login></Login>,
-  },
-  {
-    path: "/register",
-    element: <Register></Register>,
-  },
+
   {
     path: "/dashboard",
-    element: <DashboardLayout></DashboardLayout>,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "/dashboard/",
@@ -42,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/add-class",
         element: <AddClass></AddClass>,
+      },
+      {
+        path: "/dashboard/my-selected-class",
+        element: <MySelectedClass></MySelectedClass>,
       },
     ],
   },

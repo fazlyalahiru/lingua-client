@@ -8,7 +8,7 @@ import { toast } from "react-hot-toast";
 const Classes = () => {
   const [classes, setClasses] = useState([]);
   console.log(classes);
-  const { user, role } = useContext(AuthContext);
+  const { user} = useContext(AuthContext);
 
   useEffect(() => {
     getAllClasses().then((data) => {

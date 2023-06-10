@@ -68,17 +68,15 @@ const Navbar = () => {
                       Classes
                     </NavLink>
                   </li>
-                  {user?.email && (
-                    <li>
-                      <NavLink
-                        to="/dashboard"
-                        className={({ isActive }) =>
-                          isActive ? "text-[#42CBA8]" : "text-black"
-                        }>
-                        Dashboard
-                      </NavLink>
-                    </li>
-                  )}
+                  <li>
+                    <NavLink
+                      to="/dashboard"
+                      className={({ isActive }) =>
+                        isActive ? "text-[#42CBA8]" : "text-black"
+                      }>
+                      Dashboard
+                    </NavLink>
+                  </li>
                 </ul>
               </div>
               {/* Logo Section */}
@@ -189,7 +187,9 @@ const Navbar = () => {
                                   alt="profile"
                                   title={user?.displayName}
                                 />
-                                <p className="text-gray-500 pt-2">{user?.email}</p>
+                                <p className="text-gray-500 pt-2">
+                                  {user?.email}
+                                </p>
                                 <p className="capitalize text-xl font-semibold">
                                   {user?.displayName}
                                 </p>

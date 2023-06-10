@@ -1,111 +1,85 @@
-import { AiOutlineMenu } from 'react-icons/ai'
-import Avatar from './Avatar'
-import { useCallback, useContext, useState } from 'react'
-import { AuthContext } from '../../../providers/AuthProvider'
-import { Link, useNavigate } from 'react-router-dom'
-import HostModal from '../../Modal/HostRequestModal'
-import { becomeHost } from '../../../api/auth'
-import { toast } from 'react-hot-toast'
-
-const MenuDropdown = () => {
-  const navigate = useNavigate()
-  const { user, logOut, role, setRole } = useContext(AuthContext)
-  const [isOpen, setIsOpen] = useState(false)
-  const [modal, setModal] = useState(false)
-  const modalHandler = email => {
-    becomeHost(email).then(data => {
-      console.log(data)
-      toast.success('You are host now, Post Rooms!')
-      setRole('host')
-      navigate('/dashboard/add-room')
-      closeModal()
-    })
-  }
-  const closeModal = () => {
-    setModal(false)
-  }
-
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../providers/AuthProvider";
+import { getBookings } from "../../api/bookings";
+import TableRow from "../../components/Dashboard/TableRow";
+import EmptyState from "../../components/Shared/EmptyState";
+const MyBookings = () => {
+  const [bookings, setBookings] = useState([]);
+  const { user } = useContext(AuthContext);
+  const fetchBookings = () => {
+    getBookings(user?.email).then((data) => {
+      setBookings(data);
+    });
+  };
+  useEffect(() => {
+    fetchBookings();
+  }, [user]);
   return (
-    <div className='relative'>
-      <div className='flex flex-row items-center gap-3'>
-        {/* Aircnc btn */}
-        <div className='hidden md:block'>
-          {!role && (
-            <button
-              className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'
-              onClick={() => setModal(true)}
-              disabled={!user}
-            >
-              AirCNC your home
-            </button>
-          )}
-        </div>
-        {/* Dropdown btn */}
-        <div
-          onClick={() => setIsOpen(!isOpen)}
-          className='p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
-        >
-          <AiOutlineMenu />
-          <div className='hidden md:block'>
-            <Avatar />
+    <>
+      {bookings && Array.isArray(bookings) && bookings.length > 0 ? (
+        <div className="container mx-auto px-4 sm:px-8">
+          <div className="py-8">
+            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+              <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                <table className="min-w-full leading-normal">
+                  <thead>
+                    <tr>
+                      <th
+                        scope="col"
+                        className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                        Title
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                        Location
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                        Price
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                        From
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                        To
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {bookings &&
+                      bookings.map((booking) => (
+                        <TableRow
+                          key={booking._id}
+                          booking={booking}
+                          fetchBookings={fetchBookings}
+                        />
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      {isOpen && (
-        <div className='absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-white overflow-hidden right-0 top-12 text-sm'>
-          <div className='flex flex-col cursor-pointer'>
-            <Link
-              to='/'
-              className='block md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-            >
-              Home
-            </Link>
-            {user ? (
-              <>
-                <Link
-                  to='/dashboard'
-                  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                >
-                  Dashboard
-                </Link>
-
-                <div
-                  onClick={() => {
-                    setRole(null)
-                    logOut()
-                  }}
-                  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
-                >
-                  Logout
-                </div>
-              </>
-            ) : (
-              <>
-                <Link
-                  to='/login'
-                  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                >
-                  Login
-                </Link>
-                <Link
-                  to='/signup'
-                  className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                >
-                  Sign Up
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
+      ) : (
+        <EmptyState
+          message="No booking data available."
+          address="/"
+          label="Browse Rooms"
+        />
       )}
-      <HostModal
-        email={user?.email}
-        modalHandler={modalHandler}
-        isOpen={modal}
-        closeModal={closeModal}
-      />
-    </div>
-  )
-}
+    </>
+  );
+};
 
-export default MenuDropdown
+export default MyBookings;

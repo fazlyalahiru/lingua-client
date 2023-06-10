@@ -192,7 +192,7 @@ const Sidebar = () => {
                     </li>
                     <li className="flex items-center gap-1 hover:text-black">
                       <BiBookBookmark></BiBookBookmark>
-                      <Link to="/classes">My Selected Classes</Link>
+                      <Link to="/dashboard/my-selected-class">My Selected Classes</Link>
                     </li>
                     <li className="flex items-center gap-1 hover:text-black">
                       <BiHomeSmile></BiHomeSmile>

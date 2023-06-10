@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaGoogle } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
@@ -8,6 +8,9 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { insertUser } from "../../apis/user";
 
 const Login = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const from = location.state?.from?.pathname || '/'
   // show or hide pass
   const [showPassword, setShowPassword] = useState(false);
   const { signIn, singnInWithGoogle } = useContext(AuthContext);
@@ -23,6 +26,7 @@ const Login = () => {
       .then(() => {
         reset();
         toast.success("You signed in!");
+        navigate(from, { replace: true })
       })
       .catch((err) => {
         toast.error(err.message);
@@ -36,6 +40,7 @@ const Login = () => {
       .then((response) => {
         insertUser(response.user);
         toast.success("User created successfully");
+        navigate(from, { replace: true })
       })
       .catch((err) => {
         const errorMessage = err.message;
