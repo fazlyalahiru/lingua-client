@@ -2,16 +2,14 @@ import { useContext, useState } from "react";
 import { Transition } from "@headlessui/react";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { AuthContext } from "../../providerders/AuthProviders";
-import { AiOutlineCaretDown, AiOutlineUserAdd } from "react-icons/ai";
-import { Link, NavLink } from "react-router-dom";
-import { GrInsecure } from "react-icons/gr";
 import { BiBookBookmark, BiHomeSmile } from "react-icons/bi";
 import { HiOutlineAcademicCap } from "react-icons/hi2";
 import { instructorRequest } from "../../apis/user";
 import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, role, setRole } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [toggle, setToggle] = useState(false);
   const toggleHandler = (event) => {
@@ -21,6 +19,7 @@ const Sidebar = () => {
   const handleInstructorRequest = () => {
     instructorRequest(user)
       .then((result) => {
+        setRole("instructor");
         console.log(result);
         toast.success("you are an instructor");
       })
@@ -28,6 +27,9 @@ const Sidebar = () => {
         console.log(err);
       });
   };
+
+  // Become an admin
+  const handleAdminRequest = () => {};
 
   return (
     <>
@@ -117,42 +119,43 @@ const Sidebar = () => {
               </div>
             )}
 
-            {/* <label className="inline-flex w-full rounded-md cursor-pointer text-gray-800">
-              <input
-                onChange={toggleHandler}
-                id="Toggle3"
-                type="checkbox"
-                className="hidden peer"
-              />
-              <span className='px-4 py-1 rounded-l-md bg-[#4285f4] peer-checked:bg-gray-300'>
-                Guest
-              </span>
-              <span className='px-4 py-1 rounded-r-md bg-gray-300 peer-checked:bg-[#4285f4]'>
-                Host
-              </span>
-            </label> */}
-            <button
-              className="btn capitalize mt-4 bg-gray-200 hover:bg-gray-300 btn-block"
-              onClick={handleInstructorRequest}>
-              {" "}
-              Become an instructor
-            </button>
             <div>
-              <ul className="space-y-2.5 mt-6 text-gray-600 ">
-                <li className="flex items-center gap-1 hover:text-black">
-                  <BiHomeSmile></BiHomeSmile>
-                  <Link to="/">Home</Link>
-                </li>
-                <li className="flex items-center gap-1 hover:text-black">
-                  <HiOutlineAcademicCap></HiOutlineAcademicCap>
-                  <Link to="/dashboard/add-class">Add new class</Link>
-                </li>
-                <li className="flex items-center gap-1 hover:text-black">
-                  <BiBookBookmark></BiBookBookmark>
-                  <Link to="/classes">My Classes</Link>
-                </li>
-                
-              </ul>
+              <button
+                className="btn capitalize mt-4 bg-gray-200 hover:bg-gray-300 mr-2 btn-sm"
+                onClick={handleInstructorRequest}>
+                {" "}
+                Become Instructor
+              </button>
+
+              <button
+                className="btn capitalize mt-4 bg-gray-200 hover:bg-gray-300 btn-sm"
+                onClick={handleAdminRequest}>
+                {" "}
+                Become Admin
+              </button>
+            </div>
+
+            <div>
+              {role === "instructor" ? (
+                <ul className="space-y-2.5 mt-6 text-gray-600 ">
+                  <li className="flex items-center gap-1 hover:text-black">
+                    <BiHomeSmile></BiHomeSmile>
+                    <Link to="/">Home</Link>
+                  </li>
+                  <li className="flex items-center gap-1 hover:text-black">
+                    <HiOutlineAcademicCap></HiOutlineAcademicCap>
+                    <Link to="/dashboard/add-class">Add new class</Link>
+                  </li>
+                  <li className="flex items-center gap-1 hover:text-black">
+                    <BiBookBookmark></BiBookBookmark>
+                    <Link to="/classes">My Classes</Link>
+                  </li>
+                </ul>
+              ) : role === "admin" ? (
+                <p>you are a admin</p>
+              ) : (
+                <p>you are a user</p>
+              )}
             </div>
           </div>
 

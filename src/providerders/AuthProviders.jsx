@@ -10,6 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
+import { userRole } from "../apis/user";
 // import app from "../firebase/firebase.config";
 export const AuthContext = createContext(null);
 
@@ -20,6 +21,13 @@ const googleAuthProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState(null)
+
+  useEffect(()=>{
+    if(user){
+      userRole(user.email).then(data =>setRole(data))
+    }
+  },[user])
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -57,7 +65,9 @@ const AuthProvider = ({ children }) => {
 
   const authInfo = {
     user,
+    role,
     loading,
+    setRole,
     createUser,
     signIn,
     singnInWithGoogle,

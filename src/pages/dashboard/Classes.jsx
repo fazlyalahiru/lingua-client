@@ -3,16 +3,49 @@ import { getAllClasses } from "../../apis/Classes";
 import Container from "../../components/shared/Container";
 import { AuthContext } from "../../providerders/AuthProviders";
 import { BsJournalBookmark } from "react-icons/bs";
+import { toast } from "react-hot-toast";
 
 const Classes = () => {
   const [classes, setClasses] = useState([]);
-  const { user } = useContext(AuthContext);
   console.log(classes);
+  const { user, role } = useContext(AuthContext);
+
   useEffect(() => {
     getAllClasses().then((data) => {
       setClasses(data);
     });
   }, []);
+
+  const handleEnrollInfo = (classInfo) => {
+    console.log(classInfo);
+    // Send the enrollment data to the server
+    const enrolledClass = {
+      ...classInfo,
+      classId: classInfo._id,
+      userInfo: {
+        displayName: user?.displayName,
+        email: user?.email,
+      },
+    };
+    fetch("http://localhost:5000/enrolls", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(enrolledClass),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.insertedId) {
+          console.log(result);
+          toast.success("Your request has been sent to the instructor");
+        }
+        else{
+          toast.error('You already booked this class')
+        }
+      })
+  };
+
   return (
     <>
       <Container>
@@ -34,7 +67,9 @@ const Classes = () => {
                     </p>
                   </div>
                 </div>
-                <h2 className="text-lg font-semibold pt-2">{className.className}</h2>
+                <h2 className="text-lg font-semibold pt-2">
+                  {className.className}
+                </h2>
                 <div className="flex justify-between items-center">
                   <p className="text-[#4285f4] text-xl font-semibold">
                     ${className.price}
@@ -42,10 +77,15 @@ const Classes = () => {
 
                   <div className="flex justify-center items-center gap-2 py-4">
                     <BsJournalBookmark className="text-gray-500 text-sm"></BsJournalBookmark>
-                    <p className="text-gray-500 text-sm">Available seat: {className.totalSeat}</p>
+                    <p className="text-gray-500 text-sm">
+                      Available seat: {className.totalSeat}
+                    </p>
                   </div>
                 </div>
-                <button className="btn btn-block btn-sm capitalize bg-[#4285f4] text-white hover:bg-black">
+                <button
+                  onClick={() => handleEnrollInfo(className)}
+                  disabled={className.instructorInfo.email === user?.email}
+                  className="btn btn-block btn-sm capitalize bg-[#4285f4] text-white hover:bg-black">
                   Book now
                 </button>
               </div>
