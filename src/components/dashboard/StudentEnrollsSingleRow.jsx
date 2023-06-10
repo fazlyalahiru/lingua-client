@@ -1,5 +1,5 @@
 import { toast } from "react-hot-toast";
-import { deleteSpecificEnroll, updateUi } from "../../apis/bookClass";
+import { deleteSpecificEnroll } from "../../apis/bookClass";
 import Swal from "sweetalert2";
 
 const StudentEnrollsSingleRow = ({ enroll, index, updateUiAfterDelete }) => {
@@ -17,8 +17,8 @@ const StudentEnrollsSingleRow = ({ enroll, index, updateUiAfterDelete }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteSpecificEnroll(id)
-          .then((data) => {
-            console.log(data);
+          .then(() => {
+            
             toast.success("Class deleted from the list");
             updateUiAfterDelete();
           })

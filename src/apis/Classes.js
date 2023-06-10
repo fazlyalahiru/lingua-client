@@ -16,3 +16,10 @@ export const getAllClasses = async () => {
     const data = await response.json()
     return data;
 }
+
+// Specific instructor clases
+export const getSpecificInstructorClasses = async email => {
+    const response = await fetch(`http://localhost:5000/classes/${email}`)
+    const data = await response.json()
+    return data;
+}

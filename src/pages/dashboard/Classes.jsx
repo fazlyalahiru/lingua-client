@@ -18,7 +18,6 @@ const Classes = () => {
 
   const handleEnrollInfo = (classInfo) => {
     console.log(classInfo);
-    // Send the enrollment data to the server
     const enrolledClass = {
       ...classInfo,
       classId: classInfo._id,
