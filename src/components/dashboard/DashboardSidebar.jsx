@@ -7,6 +7,7 @@ import { HiOutlineAcademicCap } from "react-icons/hi2";
 import { instructorRequest } from "../../apis/user";
 import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Sidebar = () => {
   const { user, role, setRole } = useContext(AuthContext);
@@ -17,16 +18,28 @@ const Sidebar = () => {
   };
   // become an instructor
   const handleInstructorRequest = () => {
-    instructorRequest(user)
-      .then((result) => {
-        setRole("instructor");
-        console.log(result);
-        toast.success("you are an instructor");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+    Swal.fire({
+      title: "Become an instructor!",
+      text: "You won't be able switch back to student account.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#4285f4",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, switch it",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        instructorRequest(user)
+          .then((result) => {
+            setRole("instructor");
+            console.log(result);
+            toast.success("you are an instructor");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
+  }
 
   // Become an admin
   const handleAdminRequest = () => {};
@@ -121,6 +134,7 @@ const Sidebar = () => {
 
             <div>
               <button
+                disabled={role}
                 className="btn capitalize mt-4 bg-gray-200 hover:bg-gray-300 mr-2 btn-sm"
                 onClick={handleInstructorRequest}>
                 {" "}
@@ -128,6 +142,7 @@ const Sidebar = () => {
               </button>
 
               <button
+                disabled={role}
                 className="btn capitalize mt-4 bg-gray-200 hover:bg-gray-300 btn-sm"
                 onClick={handleAdminRequest}>
                 {" "}
@@ -152,9 +167,39 @@ const Sidebar = () => {
                   </li>
                 </ul>
               ) : role === "admin" ? (
-                <p>you are a admin</p>
+                <div>
+                  <ul className="space-y-2.5 mt-6 text-gray-600 ">
+                    <li className="flex items-center gap-1 hover:text-black">
+                      <BiHomeSmile></BiHomeSmile>
+                      <Link to="/">Home</Link>
+                    </li>
+                    <li className="flex items-center gap-1 hover:text-black">
+                      <BiBookBookmark></BiBookBookmark>
+                      <Link to="/classes">Manage Classes</Link>
+                    </li>
+                    <li className="flex items-center gap-1 hover:text-black">
+                      <BiHomeSmile></BiHomeSmile>
+                      <Link to="/">Manage Users</Link>
+                    </li>
+                  </ul>
+                </div>
               ) : (
-                <p>you are a user</p>
+                <div>
+                  <ul className="space-y-2.5 mt-6 text-gray-600 ">
+                    <li className="flex items-center gap-1 hover:text-black">
+                      <BiHomeSmile></BiHomeSmile>
+                      <Link to="/">Home</Link>
+                    </li>
+                    <li className="flex items-center gap-1 hover:text-black">
+                      <BiBookBookmark></BiBookBookmark>
+                      <Link to="/classes">My Selected Classes</Link>
+                    </li>
+                    <li className="flex items-center gap-1 hover:text-black">
+                      <BiHomeSmile></BiHomeSmile>
+                      <Link to="/">My Enrolled Classes</Link>
+                    </li>
+                  </ul>
+                </div>
               )}
             </div>
           </div>

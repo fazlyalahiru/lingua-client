@@ -6,6 +6,7 @@ import Register from "../pages/Register/Register";
 import DashboardLayout from "../layouts/DashboardLayout";
 import AddClass from "../pages/dashboard/AddClass";
 import Classes from "../pages/dashboard/Classes";
+import DashboardHome from "../pages/dashboard/DashboardHome";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     path: "/dashboard",
     element: <DashboardLayout></DashboardLayout>,
     children: [
+      {
+        path: "/dashboard/",
+        element: <DashboardHome></DashboardHome>,
+      },
       {
         path: "/dashboard/add-class",
         element: <AddClass></AddClass>,
