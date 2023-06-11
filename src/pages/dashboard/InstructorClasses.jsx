@@ -2,25 +2,28 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../providerders/AuthProviders";
-import { getSpecificInstructorClasses } from "../../apis/Classes";
+// import { getSpecificInstructorClasses } from "../../apis/Classes";
 import Container from "../../components/shared/Container";
 import InstructorClassesSingleRow from "../../components/dashboard/InstructorClassesSingleRow";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const InstructorClasses = () => {
   const { user } = useContext(AuthContext);
+  const [AxiosSecure] = useAxiosSecure();
   console.log(user.email);
   const [InstructorClasses, setInstructorClasses] = useState([]);
-  const updateUiAfterDelete = () => {
-    getSpecificInstructorClasses(user?.email).then((data) => {
-        setInstructorClasses(data);
-    });
-  };
+  // const updateUiAfterDelete = () => {
+  //   getSpecificInstructorClasses(user?.email).then((data) => {
+  //     setInstructorClasses(data);
+  //   });
+  // };
+  const getSpecificInstructorClasses = () => AxiosSecure.get(`/classes/${user?.email}`).then((data) => {
+    setInstructorClasses(data.data).catch((error) => console.log(error));
+  });
 
   useEffect(() => {
-    getSpecificInstructorClasses(user?.email).then((data) =>
-      setInstructorClasses(data)
-    );
-  }, [user]);
+    getSpecificInstructorClasses()
+  }, []);
   return (
     <Container>
       <div className="overflow-x-auto">
@@ -31,7 +34,7 @@ const InstructorClasses = () => {
               <th>#</th>
               <th>Image</th>
               <th>Class name</th>
-             
+
               <th>Available seat</th>
               <th>Price</th>
               <th>Status</th>
@@ -41,12 +44,10 @@ const InstructorClasses = () => {
           <tbody>
             {InstructorClasses.map((instructorClass, index) => (
               <InstructorClassesSingleRow
-              instructorClass={instructorClass}
+                instructorClass={instructorClass}
                 index={index}
                 key={index}
-                updateUiAfterDelete={
-                  updateUiAfterDelete
-                }></InstructorClassesSingleRow>
+                ></InstructorClassesSingleRow>
             ))}
           </tbody>
         </table>

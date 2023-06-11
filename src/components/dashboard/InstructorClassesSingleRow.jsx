@@ -4,8 +4,7 @@ import Swal from "sweetalert2";
 
 const InstructorClassesSingleRow = ({
   instructorClass,
-  index,
-  updateUiAfterDelete,
+  index
 }) => {
   console.log(instructorClass);
   const handleDeleteClass = (id) => {
@@ -22,7 +21,7 @@ const InstructorClassesSingleRow = ({
         deleteSpecificClass(id)
           .then(() => {
             toast.success("Class deleted from the list");
-            updateUiAfterDelete();
+            
           })
           .catch((err) => {
             console.log(err);

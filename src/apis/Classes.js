@@ -18,15 +18,15 @@ export const getAllClasses = async () => {
 }
 
 // Specific instructor clases
-export const getSpecificInstructorClasses = async email => {
-    const response = await fetch(`http://localhost:5000/classes/${email}`, {
-        headers: {
-            authorization: `bearer ${localStorage.getItem('access-token')}`
-        }
-    })
-    const data = await response.json()
-    return data;
-}
+// export const getSpecificInstructorClasses = async email => {
+//     const response = await fetch(`http://localhost:5000/classes/${email}`, {
+//         headers: {
+//             authorization: `bearer ${localStorage.getItem('access-token')}`
+//         }
+//     })
+//     const data = await response.json()
+//     return data;
+// }
 
 // delete intructor speciific one class 
 
