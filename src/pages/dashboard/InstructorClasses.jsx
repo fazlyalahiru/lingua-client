@@ -1,29 +1,24 @@
 import { useContext } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
 import { AuthContext } from "../../providerders/AuthProviders";
 // import { getSpecificInstructorClasses } from "../../apis/Classes";
 import Container from "../../components/shared/Container";
 import InstructorClassesSingleRow from "../../components/dashboard/InstructorClassesSingleRow";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const InstructorClasses = () => {
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [AxiosSecure] = useAxiosSecure();
   console.log(user.email);
-  const [InstructorClasses, setInstructorClasses] = useState([]);
-  // const updateUiAfterDelete = () => {
-  //   getSpecificInstructorClasses(user?.email).then((data) => {
-  //     setInstructorClasses(data);
-  //   });
-  // };
-  const getSpecificInstructorClasses = () => AxiosSecure.get(`/classes/${user?.email}`).then((data) => {
-    setInstructorClasses(data.data).catch((error) => console.log(error));
-  });
 
-  useEffect(() => {
-    getSpecificInstructorClasses()
-  }, []);
+  const { data:  InstructorClasses = [], refetch} = useQuery({
+    queryKey: ["classes", user?.email],
+    enabled: !loading,
+    queryFn: async () => {
+      const res = await AxiosSecure.get(`/classes/${user?.email}`);
+      return res.data
+    },
+  });
   return (
     <Container>
       <div className="overflow-x-auto">
@@ -47,7 +42,7 @@ const InstructorClasses = () => {
                 instructorClass={instructorClass}
                 index={index}
                 key={index}
-                ></InstructorClassesSingleRow>
+                refetch={refetch}></InstructorClassesSingleRow>
             ))}
           </tbody>
         </table>

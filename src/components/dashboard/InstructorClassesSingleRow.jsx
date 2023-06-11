@@ -2,10 +2,7 @@ import { toast } from "react-hot-toast";
 import { deleteSpecificClass } from "../../apis/Classes";
 import Swal from "sweetalert2";
 
-const InstructorClassesSingleRow = ({
-  instructorClass,
-  index
-}) => {
+const InstructorClassesSingleRow = ({ instructorClass, index, refetch }) => {
   console.log(instructorClass);
   const handleDeleteClass = (id) => {
     Swal.fire({
@@ -21,7 +18,7 @@ const InstructorClassesSingleRow = ({
         deleteSpecificClass(id)
           .then(() => {
             toast.success("Class deleted from the list");
-            
+            refetch();
           })
           .catch((err) => {
             console.log(err);
