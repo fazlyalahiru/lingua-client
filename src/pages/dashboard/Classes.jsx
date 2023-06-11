@@ -21,6 +21,7 @@ const Classes = () => {
     const enrolledClass = {
       ...classInfo,
       classId: classInfo._id,
+      status: 'pending',
       userInfo: {
         displayName: user?.displayName,
         email: user?.email,

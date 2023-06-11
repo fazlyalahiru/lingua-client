@@ -1,9 +1,9 @@
 import { toast } from "react-hot-toast";
 import { deleteSpecificEnroll } from "../../apis/bookClass";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const StudentEnrollsSingleRow = ({ enroll, index, updateUiAfterDelete }) => {
-  console.log(enroll);
 
   const handleDeleteEnroll = (id) => {
     Swal.fire({
@@ -18,7 +18,6 @@ const StudentEnrollsSingleRow = ({ enroll, index, updateUiAfterDelete }) => {
       if (result.isConfirmed) {
         deleteSpecificEnroll(id)
           .then(() => {
-            
             toast.success("Class deleted from the list");
             updateUiAfterDelete();
           })
@@ -28,6 +27,7 @@ const StudentEnrollsSingleRow = ({ enroll, index, updateUiAfterDelete }) => {
       }
     });
   };
+
   return (
     <tr>
       <th>{index + 1}</th>
@@ -40,9 +40,14 @@ const StudentEnrollsSingleRow = ({ enroll, index, updateUiAfterDelete }) => {
       <td>${enroll.price}</td>
       <td>
         <div className="flex gap-2">
-          <button className="btn btn-sm capitalize bg-green-200 hover:bg-green-300">
+          <Link
+            to={{
+              pathname: "/dashboard/payment",
+              search: `?price=${enroll.price}`,
+            }}
+            className="btn btn-sm capitalize bg-green-200 hover:bg-green-300">
             Pay
-          </button>
+          </Link>
           <button
             onClick={() => handleDeleteEnroll(enroll._id)}
             className="btn btn-sm capitalize bg-red-200 hover:bg-red-300">

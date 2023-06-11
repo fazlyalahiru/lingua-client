@@ -11,9 +11,10 @@ import {
 } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
 import { userRole } from "../apis/user";
+import axios from "axios";
+
 // import app from "../firebase/firebase.config";
 export const AuthContext = createContext(null);
-
 
 const auth = getAuth(app);
 const googleAuthProvider = new GoogleAuthProvider();
@@ -21,13 +22,13 @@ const googleAuthProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState(null)
+  const [role, setRole] = useState(null);
 
-  useEffect(()=>{
-    if(user){
-      userRole(user.email).then(data =>setRole(data))
+  useEffect(() => {
+    if (user) {
+      userRole(user.email).then((data) => setRole(data));
     }
-  },[user])
+  }, [user]);
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -50,13 +51,27 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setLoading(true);
+    localStorage.removeItem("access-token");
     signOut(auth);
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (loggedUser) => {
       setUser(loggedUser);
-      setLoading(false);
+      if (loggedUser?.email) {
+        axios
+          .post(`${import.meta.env.VITE_SERVER_URL}/jwt`, {
+            email: loggedUser?.email,
+          })
+          .then((data) => {
+            console.log(data.data.token);
+            localStorage.setItem("access-token", data.data.token);
+            setLoading(false);
+          });
+      } else {
+        localStorage.removeItem("access-token");
+        setLoading(false);
+      }
     });
     return () => {
       unsubscribe();

@@ -19,7 +19,11 @@ export const getAllClasses = async () => {
 
 // Specific instructor clases
 export const getSpecificInstructorClasses = async email => {
-    const response = await fetch(`http://localhost:5000/classes/${email}`)
+    const response = await fetch(`http://localhost:5000/classes/${email}`, {
+        headers: {
+            authorization: `bearer ${localStorage.getItem('access-token')}`
+        }
+    })
     const data = await response.json()
     return data;
 }
@@ -35,4 +39,20 @@ export const deleteSpecificClass = async id => {
     })
     const data = await res.json();
     return data;
+}
+
+// change enroll status
+export const insertUser = classInfo => {
+    const updatedStatus = {
+        status: 'approved',
+    }
+    console.log(updatedStatus);
+    fetch(`http://localhost:5000/classes/${classInfo?.classId}`, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify(updatedStatus)
+    }).then(res => res.json())
+        .then(data => console.log(data))
 }
