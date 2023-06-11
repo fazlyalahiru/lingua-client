@@ -198,7 +198,7 @@ const Sidebar = () => {
                     </li>
                     <li className="flex items-center gap-1 hover:text-black">
                       <BiHomeSmile></BiHomeSmile>
-                      <Link to="/">My Enrolled Classes</Link>
+                      <Link to="/dashboard/my-enrolled-classes">My Enrolled Classes</Link>
                     </li>
                   </ul>
                 </div>

@@ -23,3 +23,16 @@ export const getSpecificInstructorClasses = async email => {
     const data = await response.json()
     return data;
 }
+
+// delete intructor speciific one class 
+
+export const deleteSpecificClass = async id => {
+    const res = await fetch(`http://localhost:5000/classes/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+    const data = await res.json();
+    return data;
+}
