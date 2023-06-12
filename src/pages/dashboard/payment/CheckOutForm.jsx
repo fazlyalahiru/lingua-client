@@ -5,8 +5,11 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../providerders/AuthProviders";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import moment from "moment/moment";
+// import { toast } from "react-hot-toast";
+import { deleteSelectedClass } from "../../../apis/bookClass";
+import Swal from "sweetalert2";
 
-const CheckoutForm = ({ singleClassInfo }) => {
+const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
   const [axiosSecure] = useAxiosSecure();
   const { user } = useContext(AuthContext);
   const stripe = useStripe();
@@ -68,13 +71,12 @@ const CheckoutForm = ({ singleClassInfo }) => {
         payment_method: {
           card: card,
           billing_details: {
-            name: user?.displayName || "anonymous",
-            email: user?.email || "NA",
+            name: user?.displayName || "unknown",
+            email: user?.email || "anonymous",
           },
         },
       });
     if (confirmError) {
-      console.log(confirmError);
       setPaymentError(confirmError.message);
     } else {
       if (paymentIntent.status === "succeeded") {
@@ -87,8 +89,19 @@ const CheckoutForm = ({ singleClassInfo }) => {
         axiosSecure
           .post(`${import.meta.env.VITE_SERVER_URL}/enrolledClass`, PaymentInfo)
           .then((res) => {
+            console.log("res from data insert in enroll collection", res);
             if (res.data.insertedId) {
-              axiosSecure(`/enrolls/${singleClassInfo._id}`).then(res=>console.log(res.data))
+              deleteSelectedClass(singleClassInfo._id).then((res) => {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Your work has been saved",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                refetch()
+                closeModal();
+              });
             }
           });
       }

@@ -200,6 +200,10 @@ const Sidebar = () => {
                       <BiHomeSmile></BiHomeSmile>
                       <Link to="/dashboard/my-enrolled-classes">My Enrolled Classes</Link>
                     </li>
+                    <li className="flex items-center gap-1 hover:text-black">
+                      <BiHomeSmile></BiHomeSmile>
+                      <Link to="/dashboard/my-enrolled-classes">Payment History</Link>
+                    </li>
                   </ul>
                 </div>
               )}

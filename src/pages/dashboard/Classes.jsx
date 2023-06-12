@@ -27,7 +27,7 @@ const Classes = () => {
         email: user?.email,
       },
     };
-    fetch("http://localhost:5000/enrolls", {
+    fetch("http://localhost:5000/cart", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

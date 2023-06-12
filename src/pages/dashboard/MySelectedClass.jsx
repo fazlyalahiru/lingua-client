@@ -1,9 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Container from "../../components/shared/Container";
-import {
-  deleteSelectedClass,
-  specificStudentEnrolls,
-} from "../../apis/bookClass";
+import { deleteSelectedClass } from "../../apis/bookClass";
 import { AuthContext } from "../../providerders/AuthProviders";
 import { Transition, Dialog } from "@headlessui/react";
 import { Link } from "react-router-dom";
@@ -13,20 +10,25 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./payment/CheckOutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { Fragment } from "react";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 const stripePromise = loadStripe(`${import.meta.env.VITE_PAYMENT_PK}`);
 
 const MySelectedClass = () => {
-  const [enrolls, setEnrolls] = useState([]);
-  const { user } = useContext(AuthContext);
-  const updateUiAfterDelete = () => {
-    specificStudentEnrolls(user?.email).then((data) => {
-      setEnrolls(data);
-    });
-  };
+  // const [enrolls, setEnrolls] = useState([]);
+  const [AxiosSecure] = useAxiosSecure();
+  const { user, loading } = useContext(AuthContext);
 
-  useEffect(() => {
-    specificStudentEnrolls(user?.email).then((result) => setEnrolls(result));
-  }, [user]);
+  const { data: enrolls = [], refetch } = useQuery({
+    queryKey: [],
+    enabled: !loading,
+    queryFn: async () => {
+      const res = await AxiosSecure.get(`/cart?email=${user?.email}`);
+      return res.data;
+    },
+  });
+
+  // get speci
 
   // handle delete enroll
   const handleDeleteEnroll = (id) => {
@@ -43,7 +45,7 @@ const MySelectedClass = () => {
         deleteSelectedClass(id)
           .then(() => {
             toast.success("Class deleted from the list");
-            updateUiAfterDelete();
+            refetch();
           })
           .catch((err) => {
             console.log(err);
@@ -52,7 +54,7 @@ const MySelectedClass = () => {
     });
   };
   const [singleClassInfo, setSingleClassInfo] = useState({});
- 
+
   const handlePayButton = (enroll) => {
     setSingleClassInfo(enroll);
     setIsOpen(true);
@@ -62,6 +64,7 @@ const MySelectedClass = () => {
   function closeModal() {
     setIsOpen(false);
   }
+
   return (
     <Container>
       <div className="overflow-x-auto">
@@ -114,7 +117,6 @@ const MySelectedClass = () => {
       </div>
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
-          
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -144,7 +146,11 @@ const MySelectedClass = () => {
                       className="text-lg font-medium text-center leading-6 text-gray-900">
                       Course Details
                     </Dialog.Title>
-                    <p onClick={closeModal} className="cursor-pointer hover:text-red-600">x</p>
+                    <p
+                      onClick={closeModal}
+                      className="cursor-pointer hover:text-red-600">
+                      x
+                    </p>
                   </div>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
@@ -172,8 +178,7 @@ const MySelectedClass = () => {
                     <CheckoutForm
                       closeModal={closeModal}
                       singleClassInfo={singleClassInfo}
-                      
-                      ></CheckoutForm>
+                      refetch={refetch}></CheckoutForm>
                   </Elements>
                 </Dialog.Panel>
               </Transition.Child>
