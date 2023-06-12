@@ -46,7 +46,7 @@ export const insertUser = classInfo => {
     const updatedStatus = {
         status: 'approved',
     }
-    console.log(updatedStatus);
+    
     fetch(`http://localhost:5000/classes/${classInfo?.classId}`, {
         method: 'PUT',
         headers: {

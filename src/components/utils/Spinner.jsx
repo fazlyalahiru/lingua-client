@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SyncLoader } from "react-spinners";
 
 const Spinner = () => {
-  let [color, setColor] = useState("#4285f4");
+  let [color, ] = useState("#4285f4");
   return (
     <div
       className="

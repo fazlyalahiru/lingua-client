@@ -2,7 +2,7 @@ export const insertUser = user => {
     const currentUser = {
         email: user.email,
     }
-    console.log(currentUser);
+    
     fetch(`http://localhost:5000/users/${user?.email}`, {
         method: 'PUT',
         headers: {

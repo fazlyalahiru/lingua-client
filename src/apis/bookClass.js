@@ -17,7 +17,7 @@ export const specificStudentEnrolls = async email => {
 }
 
 // delete a specific clss from my class list
-export const deleteSpecificEnroll = async id => {
+export const deleteSelectedClass = async id => {
     const res = await fetch(`http://localhost:5000/enrolls/${id}`, {
         method: 'DELETE',
         headers: {
@@ -33,7 +33,7 @@ export const updateUi = async () => {
     try {
       const res = await fetch('http://localhost:5000/enrolls');
       const data = await res.json();
-      console.log(data); 
+     
       return data;
     } catch (error) {
       console.error('Error updating UI:', error);
