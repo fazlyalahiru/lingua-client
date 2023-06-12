@@ -73,7 +73,7 @@ const CheckoutFor = ({ closeModal, singleClassInfo, refetch }) => {
         };
         axios
           .post(
-            `${import.meta.env.VITE_SERVER_BASE_URL}/enrolledClass`,
+            `${import.meta.env.VITE_SERVER_BASE_URL}/enrolled`,
             paymentInfo
           )
           .then((res) => {

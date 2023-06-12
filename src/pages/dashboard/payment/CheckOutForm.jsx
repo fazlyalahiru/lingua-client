@@ -87,7 +87,7 @@ const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
           sortedDate: moment().format("MMMM Do YYYY, h:mm:ss a"),
         };
         axiosSecure
-          .post(`${import.meta.env.VITE_SERVER_URL}/enrolledClass`, PaymentInfo)
+          .post(`${import.meta.env.VITE_SERVER_URL}/enrolled`, PaymentInfo)
           .then((res) => {
             console.log("res from data insert in enroll collection", res);
             if (res.data.insertedId) {

@@ -202,7 +202,7 @@ const Sidebar = () => {
                     </li>
                     <li className="flex items-center gap-1 hover:text-black">
                       <BiHomeSmile></BiHomeSmile>
-                      <Link to="/dashboard/my-enrolled-classes">Payment History</Link>
+                      <Link to="/dashboard/payment-history">Payment History</Link>
                     </li>
                   </ul>
                 </div>

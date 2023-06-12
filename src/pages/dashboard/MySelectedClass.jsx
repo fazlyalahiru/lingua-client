@@ -71,7 +71,7 @@ const MySelectedClass = () => {
         <table className="table">
           {/* head */}
           <thead>
-            <tr className="uppercase bg-gray-100">
+            <tr className="uppercase bg-[#4285f4] text-white">
               <th>#</th>
               <th>Image</th>
               <th>Class name</th>

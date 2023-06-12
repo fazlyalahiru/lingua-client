@@ -24,36 +24,24 @@ const MyEnrollClasses = () => {
           <thead>
             <tr className="uppercase bg-[#4285f4] text-white">
               <th>#</th>
-              <th>Image</th>
+              
               <th>Class name</th>
-              <th>Instructor</th>
-              <th>Available seat</th>
-              <th>Price</th>
-              <th>Status</th>
+              <th>Amount</th>
+              <th>Time</th>
+              <th>TRANSACTION ID</th>
+              
             </tr>
           </thead>
           <tbody>
             {enrolls.map((enroll, index) => (
               <tr key={enroll._id}>
                 <th>{index + 1}</th>
-                <td>
-                  <img
-                    src={enroll.image}
-                    alt=""
-                    className="h-8 rounded-sm w-12"
-                  />
-                </td>
+               
                 <td>{enroll.className}</td>
-                <td className="capitalize">{enroll.instructorInfo.name}</td>
-                <td>{enroll.totalSeat}</td>
-                <td>${enroll.price}</td>
-                <td>
-                  <div className="flex gap-2">
-                    <p className="capitalize bg-green-300 px-2 py-1 rounded-md">
-                      Paid
-                    </p>
-                  </div>
-                </td>
+                <td >$ {enroll.price}</td>
+                <td>{enroll.sortedDate}</td>
+                <td>${enroll.transactionId}</td>
+                
               </tr>
             ))}
           </tbody>
