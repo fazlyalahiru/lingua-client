@@ -41,7 +41,7 @@ const InstructorClassesSingleRow = ({ instructorClass, index, refetch }) => {
       <td>${instructorClass.price}</td>
       <td>
         <button className="btn btn-sm capitalize bg-green-200 hover:bg-green-300">
-          Pending
+          {instructorClass.status}
         </button>
       </td>
       <td>

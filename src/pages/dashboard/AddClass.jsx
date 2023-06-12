@@ -3,8 +3,9 @@ import { AuthContext } from "../../providerders/AuthProviders";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useForm } from "react-hook-form";
 import { uploadImage } from "../../apis/imageUpload";
-import { uploadClass } from "../../apis/Classes";
+
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const AddClass = () => {
   const {
@@ -28,19 +29,24 @@ const AddClass = () => {
         price: parseFloat(data.price),
         totalSeat: parseFloat(data.totalSeat),
         image: res.data.display_url,
-        
       };
-      console.log(res.data)
-      uploadClass(classDetails)
+      axios
+        .post(`${import.meta.env.VITE_SERVER_URL}/classes`, classDetails)
         .then((res) => {
-          if (res.insertedId) {
-            toast.success("Class added successfully");
-            reset();
-          }
-        })
-        .catch((err) => {
-          toast.error(err.message);
+          toast.success("Class added successfully");
+          reset();
         });
+
+      // uploadClass(classDetails)
+      //   .then((res) => {
+      //     if (res.insertedId) {
+      //       toast.success("Class added successfully");
+      //       reset();
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     toast.error(err.message);
+      //   });
     });
   };
 

@@ -10,12 +10,20 @@ export const uploadClass = async classInfo => {
     return data;
 }
 
-// get all classes 
-export const getAllClasses = async () => {
-    const response = await fetch('http://localhost:5000/classes')
+// get approved classes 
+export const getApprovedClasses = async () => {
+    const response = await fetch('http://localhost:5000/classes?status=approved')
     const data = await response.json()
     return data;
 }
+
+// get pending classes
+export const getPendingClasses = async () => {
+    const response = await fetch('http://localhost:5000/classes?status=approved')
+    const data = await response.json()
+    return data;
+}
+
 
 // Specific instructor clases
 // export const getSpecificInstructorClasses = async email => {
@@ -46,7 +54,7 @@ export const insertUser = classInfo => {
     const updatedStatus = {
         status: 'approved',
     }
-    
+
     fetch(`http://localhost:5000/classes/${classInfo?.classId}`, {
         method: 'PUT',
         headers: {

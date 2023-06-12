@@ -1,27 +1,38 @@
 import { useContext, useEffect, useState } from "react";
-import { getAllClasses } from "../../apis/Classes";
+import {getApprovedClasses } from "../../apis/Classes";
 import Container from "../../components/shared/Container";
 import { AuthContext } from "../../providerders/AuthProviders";
 import { BsJournalBookmark } from "react-icons/bs";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const Classes = () => {
   const [classes, setClasses] = useState([]);
-  
-  const { user} = useContext(AuthContext);
+  console.log(classes);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    getAllClasses().then((data) => {
+    getApprovedClasses().then((data) => {
       setClasses(data);
     });
   }, []);
+  // useEffect(() => {
+  //   // Fetch pending data
+  //   axios.get('/classes?status=approved')
+  //     .then(response => {
+  //       setClasses(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching pending data:', error);
+  //     });
+  // }, []);
 
   const handleEnrollInfo = (classInfo) => {
     console.log(classInfo);
     const enrolledClass = {
       ...classInfo,
       classId: classInfo._id,
-      status: 'pending',
+      status: "pending",
       userInfo: {
         displayName: user?.displayName,
         email: user?.email,
@@ -37,13 +48,11 @@ const Classes = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.insertedId) {
-          console.log(result);
-          toast.success("Your request has been sent to the instructor");
+          toast.success("Added! Confirm payment to confirm your seat");
+        } else {
+          toast.error("You already Added this class");
         }
-        else{
-          toast.error('You already booked this class')
-        }
-      })
+      });
   };
 
   return (
