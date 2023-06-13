@@ -22,7 +22,7 @@ const MyEnrollClasses = () => {
         <table className="table">
           {/* head */}
           <thead>
-            <tr className="uppercase bg-[#4285f4] text-white">
+            <tr className="uppercase bg-[#4285f4] text-white text-center">
               <th>#</th>
               
               <th>Class name</th>

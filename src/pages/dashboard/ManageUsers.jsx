@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import Container from "../../components/shared/Container";
 import { toast } from "react-hot-toast";
 const ManageClasses = () => {
-  const [enrolls, setEnrolls] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_SERVER_URL}/classes`, {
+    fetch(`${import.meta.env.VITE_SERVER_URL}/users`, {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -13,33 +13,32 @@ const ManageClasses = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setEnrolls(data));
-  }, [enrolls]);
+      .then((data) => setUsers(data));
+  }, [users]);
 
-  //   handle approve class
-  const handleApproveClass = (classId) => {
-    fetch(`http://localhost:5000/classes/approve/${classId}`, {
+  //   handle Instructor
+  const handleInstructor = (userId) => {
+    fetch(`http://localhost:5000/users/instructor/${userId}`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        authorization: `bearer ${localStorage.getItem('access-token')}`
       },
       body: JSON.stringify(),
     }).then(() => {
-      toast.success("Class approved");
+      toast.success("User role set to instructor");
     });
   };
 
-  //   handle deniyed class
-  const handleDeniedClass = (classId) => {
-    fetch(`http://localhost:5000/classes/deny/${classId}`, {
+  //   handle admin role 
+  const handleAdmin = (userId) => {
+    fetch(`http://localhost:5000/users/admin/${userId}`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify(),
     }).then(() => {
-      toast.error("Class denied");
+      toast.success("User role set to admin");
     });
   };
 
@@ -49,45 +48,45 @@ const ManageClasses = () => {
         <table className="table">
           {/* head */}
           <thead>
-            <tr className="uppercase bg-[#4285f4] text-white">
+            <tr className="uppercase bg-[#4285f4] text-white text-center">
               <th>#</th>
               <th>Image</th>
-              <th>Class name</th>
-              <th>Amount</th>
-              <th>Instructor name</th>
-              <th>Status</th>
+              <th>Name</th>
+              <th>Email</th>
+              
+              <th>Current role</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {enrolls.map((enroll, index) => (
-              <tr key={enroll._id}>
+            {users.map((user, index) => (
+              <tr key={user._id} className="text-center">
                 <th>{index + 1}</th>
 
                 <td>
                   <img
-                    src={enroll.image}
+                    src={user.photo}
                     alt=""
-                    className="h-8 rounded-sm w-12"
+                    className="h-8 rounded-full w-8"
                   />
                 </td>
-                <td>{enroll.className}</td>
-                <td>${enroll.price}</td>
-                <td className="capitalize">{enroll?.instructorInfo?.name}</td>
-                <td className="capitalize">{enroll.status}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                
+                <td className="capitalize">{user.role}</td>
                 <td>
                   <div className="flex gap-2">
                     <button
                       className="text-green-500 btn btn-xs"
-                      onClick={() => handleApproveClass(enroll._id)}
-                      disabled={enroll.status === "approved"}>
-                      approve
+                      onClick={() => handleInstructor(user._id)}
+                      disabled={user.role === "instructor"}>
+                      Make Instructor
                     </button>
                     <button
                       className="text-red-500 btn btn-xs"
-                      onClick={() => handleDeniedClass(enroll._id)}
-                      disabled={enroll.status === "denied"}>
-                      Deny
+                      onClick={() => handleAdmin(user._id)}
+                      disabled={user.role === "admin"}>
+                      Make Admin
                     </button>
                   </div>
                 </td>

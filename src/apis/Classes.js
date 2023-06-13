@@ -2,7 +2,8 @@ export const uploadClass = async classInfo => {
     const res = await fetch('http://localhost:5000/classes', {
         method: 'POST',
         headers: {
-            'content-type': 'application/json'
+            'content-type': 'application/json',
+            authorization: `bearer ${localStorage.getItem("access-token")}`,
         },
         body: JSON.stringify(classInfo)
     })
@@ -12,7 +13,13 @@ export const uploadClass = async classInfo => {
 
 // get approved classes 
 export const getApprovedClasses = async () => {
-    const response = await fetch('http://localhost:5000/classes?status=approved')
+    const response = await fetch('http://localhost:5000/classes?status=approved', {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("access-token")}`,
+        },
+    })
     const data = await response.json()
     return data;
 }

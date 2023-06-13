@@ -1,6 +1,10 @@
 export const insertUser = user => {
+    console.log(user);
     const currentUser = {
+        name:user.displayName,
         email: user.email,
+        photo:user.photoURL, 
+        role: 'student'
     }
     
     fetch(`http://localhost:5000/users/${user?.email}`, {

@@ -42,7 +42,7 @@ const Sidebar = () => {
   };
 
   // Become an admin
-  const handleAdminRequest = () => {};
+  // const handleAdminRequest = () => {};
 
   return (
     <>
@@ -132,7 +132,7 @@ const Sidebar = () => {
               </div>
             )}
 
-            <div>
+            {/* <div>
               <button
                 disabled={role}
                 className="btn capitalize mt-4 bg-gray-200 hover:bg-gray-300 mr-2 btn-sm"
@@ -148,7 +148,7 @@ const Sidebar = () => {
                 {" "}
                 Become Admin
               </button>
-            </div>
+            </div> */}
 
             <div>
               {role === "instructor" ? (
@@ -179,7 +179,7 @@ const Sidebar = () => {
                     </li>
                     <li className="flex items-center gap-1 hover:text-black">
                       <BiHomeSmile></BiHomeSmile>
-                      <Link to="/">Manage Users</Link>
+                      <Link to="/dashboard/manage-users">Manage Users</Link>
                     </li>
                   </ul>
                 </div>
