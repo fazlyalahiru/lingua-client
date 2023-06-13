@@ -1,6 +1,20 @@
+import Slider from "./Slider";
+
 const Home = () => {
   return (
-<div>this is home</div>
+    <>
+      <div className="slider-style">
+        <Slider></Slider>
+      </div>
+
+      <div>
+        <p>ldofladfjladfjalfjlad afjdlfja;lfad</p>
+        <p>ldofladfjladfjalfjlad afjdlfja;lfad</p>
+        <p>ldofladfjladfjalfjlad afjdlfja;lfad</p>
+        <p>ldofladfjladfjalfjlad afjdlfja;lfad</p>
+        <p>ldofladfjladfjalfjlad afjdlfja;lfad</p>
+      </div>
+    </>
   );
 };
 

@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "../components/shared/Container";
-import { BsJournalBookmark } from "react-icons/bs";
-import { AuthContext } from "../providerders/AuthProviders";
 
 const Instructors = () => {
   const [instructors, setInstructors] = useState([]);
-  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     fetch(`http://localhost:5000/instructors`)
       .then((res) => res.json())
