@@ -14,6 +14,7 @@ const CheckoutFor = ({ closeModal, singleClassInfo, refetch }) => {
   const elements = useElements();
   const [cardError, setCardError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
+  const [paymentLoading, setPaymentLoading] = useState(false)
 
   useEffect(() => {
     if (singleClassInfo.price) {

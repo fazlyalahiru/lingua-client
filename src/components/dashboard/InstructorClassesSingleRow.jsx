@@ -27,7 +27,7 @@ const InstructorClassesSingleRow = ({ instructorClass, index, refetch }) => {
     });
   };
   return (
-    <tr>
+    <tr className="text-center">
       <th>{index + 1}</th>
       <td>
         <img

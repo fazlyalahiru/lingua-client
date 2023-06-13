@@ -37,16 +37,7 @@ const AddClass = () => {
           reset();
         });
 
-      // uploadClass(classDetails)
-      //   .then((res) => {
-      //     if (res.insertedId) {
-      //       toast.success("Class added successfully");
-      //       reset();
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     toast.error(err.message);
-      //   });
+     
     });
   };
 

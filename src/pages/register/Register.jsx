@@ -7,11 +7,13 @@ import { toast } from "react-hot-toast";
 // import { HiEye, HiEyeOff } from "react-icons/hi";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { insertUser } from "../../apis/user";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import { uploadImage } from "../../apis/imageUpload";
 
 const Register = () => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const from = location.state?.from?.pathname || '/'
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   // show or hide pass
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -34,28 +36,55 @@ const Register = () => {
   };
 
   // handle submit form
+  // const onSubmit = (data) => {
+  //   const image = data.image[0];
+  //   uploadImage(image).then((res) => {
+  //     createUser(data.email, data.password)
+  //       .then((result) => {
+  //         updateProfileInfo(data.name, data.photo)
+  //           .then(() => {
+  //             console.log(result.user.email);
+  //             insertUser(result.user);
+  //             toast.success("User created successfully");
+  //             reset();
+  //             navigate(from, { replace: true });
+  //           })
+  //           .catch((err) => {
+  //             console.log(err);
+  //             const errorMessage = err.message;
+  //             toast.error(errorMessage);
+  //           });
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         const errorMessage = err.message;
+  //         toast.error(errorMessage);
+  //       });
+  //   });
+  // };
+
   const onSubmit = (data) => {
-    createUser(data.email, data.password)
-      .then((result) => {
-        updateProfileInfo(data.name, data.photo)
-          .then(() => {
-            console.log(result.user.email);
+    const image = data.image[0];
+    uploadImage(image).then((res) => {
+      const photoURL = res.data.display_url;
+      const email = data.email;
+      const password = data.password;
+      const name = data.name;
+      createUser(email, password)
+        .then((result) => {
+          updateProfileInfo(name, photoURL).then(() => {
             insertUser(result.user);
-            toast.success("User created successfully");
+            toast.success("User created successfully!");
             reset();
-            navigate(from, { replace: true })
-          })
-          .catch((err) => {
-            console.log(err);
-            const errorMessage = err.message;
-            toast.error(errorMessage);
+            navigate(from, { replace: true });
           });
-      })
-      .catch((err) => {
-        console.log(err);
-        const errorMessage = err.message;
-        toast.error(errorMessage);
-      });
+        })
+        .catch((err) => {
+          console.log(err);
+          const errorMessage = err.message;
+          toast.error(errorMessage);
+        });
+    });
   };
 
   // signin with google
@@ -64,7 +93,7 @@ const Register = () => {
       .then((response) => {
         insertUser(response.user);
         toast.success("User created successfully");
-        navigate(from, { replace: true })
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         const errorMessage = err.message;
@@ -101,7 +130,7 @@ const Register = () => {
               <p className="text-red-500">Email is required</p>
             )}
 
-            <input
+            {/* <input
               type="url"
               {...register("photo", { required: true })}
               placeholder="Photo URL"
@@ -109,9 +138,9 @@ const Register = () => {
             />
             {errors.photo?.type === "required" && (
               <p className="text-red-500">Photo is required</p>
-            )}
+            )} */}
 
-            <input
+            {/* <input
               type="tel"
               {...register("phone")}
               placeholder="Phone number"
@@ -119,7 +148,7 @@ const Register = () => {
             />
             {errors.phone && (
               <span className="text-red-500">{errors.phone.message}</span>
-            )}
+            )} */}
 
             <select
               defaultValue="Gender"
@@ -139,7 +168,7 @@ const Register = () => {
                   required: true,
                   minLength: 6,
                   maxLength: 15,
-                  pattern: /(?=.*[!@#$&*])(?=.*[0-9])/,
+                  pattern: /(?=.*[!@#$&*])(?=.*[0-9])(?=.*[A-Z])/,
                 })}
                 placeholder="Password"
                 className="input border border-gray-300 w-full block"
@@ -168,7 +197,8 @@ const Register = () => {
             )}
             {errors.password?.type === "pattern" && (
               <p className="text-red-600">
-                Password should contain atleast 1 special character and number
+                Password should contain atleast 1 special character, number &
+                uppercase letter
               </p>
             )}
             <div className="relative">
@@ -202,6 +232,27 @@ const Register = () => {
                 {errors.confirmPassword.message}
               </span>
             )}
+
+            <div className="flex flex-col items-center py-4 text-center border-4 border-dotted w-full ">
+              <div className="flex items-center gap-2 py-4">
+                <AiOutlineCloudUpload></AiOutlineCloudUpload>
+                <p>Upload Profile image</p>
+              </div>
+              <label>
+                <div className=" w-full mx-auto">
+                  <input
+                    className="w-full ml-5 md:ml-12"
+                    type="file"
+                    {...register("image", { required: true })}
+                    name="image"
+                    accept="image/*"
+                  />
+                </div>
+              </label>
+            </div>
+            {errors.image?.type === "required" && (
+                <p className="text-red-500">Image field is required</p>
+              )}
 
             <button
               className="shadow bg-[#42CBA8] hover:bg-black focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full"

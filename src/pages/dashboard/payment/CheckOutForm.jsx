@@ -5,9 +5,8 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../providerders/AuthProviders";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import moment from "moment/moment";
-// import { toast } from "react-hot-toast";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { deleteSelectedClass } from "../../../apis/bookClass";
-import Swal from "sweetalert2";
 
 const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
   const [axiosSecure] = useAxiosSecure();
@@ -16,6 +15,7 @@ const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState("");
   const [paymentError, setPaymentError] = useState("");
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   useEffect(() => {
     // // Create PaymentIntent as soon as the page loads
@@ -65,7 +65,7 @@ const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
     } else {
       console.log("[PaymentMethod]", paymentMethod);
     }
-
+    setPaymentLoading(true);
     const { paymentIntent, error: confirmError } =
       await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
@@ -89,17 +89,11 @@ const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
         axiosSecure
           .post(`${import.meta.env.VITE_SERVER_URL}/enrolled`, PaymentInfo)
           .then((res) => {
-            console.log("res from data insert in enroll collection", res);
             if (res.data.insertedId) {
               deleteSelectedClass(singleClassInfo._id).then((res) => {
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Your work has been saved",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                refetch()
+                setPaymentLoading(false);
+                toast.success("Payment successfull");
+                refetch();
                 closeModal();
               });
             }
@@ -129,9 +123,15 @@ const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
         />
         <button
           type="submit"
-          disabled={!stripe || !clientSecret}
+          disabled={!stripe || !clientSecret || paymentLoading}
           className="btn-block btn-sm bg-[#4285f4] text-white hover:bg-black capitalize hover:scale-105 transition-transform duration-300">
-          Pay
+          {paymentLoading ? (
+            <AiOutlineLoading3Quarters
+              className="m-auto animate-spin"
+              size={24}></AiOutlineLoading3Quarters>
+          ) : (
+            `Pay ${singleClassInfo.price}$`
+          )}
         </button>
       </form>
       {paymentError && <p className="text-red-500">{paymentError}</p>}

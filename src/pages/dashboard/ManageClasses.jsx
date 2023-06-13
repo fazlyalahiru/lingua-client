@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
-import Container from "../../components/shared/Container";
 import { toast } from "react-hot-toast";
 const ManageClasses = () => {
   const [enrolls, setEnrolls] = useState([]);
 
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_SERVER_URL}/classes`, {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        authorization: `bearer ${localStorage.getItem("access-token")}`,
-      },
-    })
+  const fetchEnrolls = () => {
+    fetch(`${import.meta.env.VITE_SERVER_URL}/classes`)
       .then((res) => res.json())
       .then((data) => setEnrolls(data));
-  }, [enrolls]);
+  };
+
+  useEffect(() => {
+    fetchEnrolls();
+  }, []);
 
   //   handle approve class
   const handleApproveClass = (classId) => {
@@ -22,11 +19,11 @@ const ManageClasses = () => {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        authorization: `bearer ${localStorage.getItem('access-token')}`
       },
       body: JSON.stringify(),
     }).then(() => {
       toast.success("Class approved");
+      fetchEnrolls();
     });
   };
 
@@ -40,16 +37,17 @@ const ManageClasses = () => {
       body: JSON.stringify(),
     }).then(() => {
       toast.error("Class denied");
+      fetchEnrolls();
     });
   };
 
   return (
-    <Container>
-      <div className="overflow-x-auto">
+    
+      <div className="overflow-x-auto mx-2 md:mx-4">
         <table className="table">
           {/* head */}
           <thead>
-            <tr className="uppercase bg-[#4285f4] text-white">
+            <tr className="uppercase bg-[#4285f4] text-white text-center">
               <th>#</th>
               <th>Image</th>
               <th>Class name</th>
@@ -61,7 +59,7 @@ const ManageClasses = () => {
           </thead>
           <tbody>
             {enrolls.map((enroll, index) => (
-              <tr key={enroll._id}>
+              <tr key={enroll._id} className="text-center">
                 <th>{index + 1}</th>
 
                 <td>
@@ -96,7 +94,7 @@ const ManageClasses = () => {
           </tbody>
         </table>
       </div>
-    </Container>
+    
   );
 };
 

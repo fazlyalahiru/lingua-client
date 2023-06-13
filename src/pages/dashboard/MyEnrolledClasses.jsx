@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import Container from "../../components/shared/Container";
 import { AuthContext } from "../../providerders/AuthProviders";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -17,12 +16,12 @@ const MyEnrollClasses = () => {
   });
 
   return (
-    <Container>
+    
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
           <thead>
-            <tr className="uppercase bg-[#4285f4] text-white">
+            <tr className="uppercase bg-[#4285f4] text-white text-center">
               <th>#</th>
               <th>Image</th>
               <th>Class name</th>
@@ -34,7 +33,7 @@ const MyEnrollClasses = () => {
           </thead>
           <tbody>
             {enrolls.map((enroll, index) => (
-              <tr key={enroll._id}>
+              <tr key={enroll._id} className="text-center">
                 <th>{index + 1}</th>
                 <td>
                   <img
@@ -49,7 +48,7 @@ const MyEnrollClasses = () => {
                 <td>${enroll.price}</td>
                 <td>
                   <div className="flex gap-2">
-                    <p className="capitalize bg-green-300 px-2 py-1 rounded-md">
+                    <p className="capitalize bg-green-200 px-2 py-1 rounded-md">
                       Paid
                     </p>
                   </div>
@@ -59,7 +58,7 @@ const MyEnrollClasses = () => {
           </tbody>
         </table>
       </div>
-    </Container>
+    
   );
 };
 

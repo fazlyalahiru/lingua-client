@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import Container from "../../components/shared/Container";
 import { deleteSelectedClass } from "../../apis/bookClass";
 import { AuthContext } from "../../providerders/AuthProviders";
 import { Transition, Dialog } from "@headlessui/react";
@@ -27,8 +26,6 @@ const MySelectedClass = () => {
       return res.data;
     },
   });
-
-  // get speci
 
   // handle delete enroll
   const handleDeleteEnroll = (id) => {
@@ -66,12 +63,12 @@ const MySelectedClass = () => {
   }
 
   return (
-    <Container>
+    <>
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
           <thead>
-            <tr className="uppercase bg-[#4285f4] text-white">
+            <tr className="uppercase bg-[#4285f4] text-white text-center">
               <th>#</th>
               <th>Image</th>
               <th>Class name</th>
@@ -83,7 +80,7 @@ const MySelectedClass = () => {
           </thead>
           <tbody>
             {enrolls.map((enroll, index) => (
-              <tr key={enroll._id}>
+              <tr key={enroll._id} className="text-center">
                 <th>{index + 1}</th>
                 <td>
                   <img
@@ -186,7 +183,7 @@ const MySelectedClass = () => {
           </div>
         </Dialog>
       </Transition>
-    </Container>
+    </>
   );
 };
 

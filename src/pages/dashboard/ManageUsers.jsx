@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Container from "../../components/shared/Container";
 import { toast } from "react-hot-toast";
+import Swal from "sweetalert2";
+import { AuthContext } from "../../providerders/AuthProviders";
 const ManageClasses = () => {
   const [users, setUsers] = useState([]);
+  const {user} = useContext(AuthContext)
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_SERVER_URL}/users`, {
@@ -17,34 +20,59 @@ const ManageClasses = () => {
   }, [users]);
 
   //   handle Instructor
-  const handleInstructor = (userId) => {
-    fetch(`http://localhost:5000/users/instructor/${userId}`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(),
-    }).then(() => {
-      toast.success("User role set to instructor");
+  const handleInstructor = (user) => {
+    Swal.fire({
+      title: "Make Instructor",
+      text: `You want to make ${user.email} an instructor?`,
+      icon: "",
+      showCancelButton: true,
+      confirmButtonColor: "#4285f4",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, do it",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/users/instructor/${user._id}`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(),
+        }).then(() => {
+          toast.success("User role set to instructor");
+        });
+      }
     });
   };
 
-  //   handle admin role 
-  const handleAdmin = (userId) => {
-    fetch(`http://localhost:5000/users/admin/${userId}`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(),
-    }).then(() => {
-      toast.success("User role set to admin");
+  //   handle admin role
+  const handleAdmin = (user) => {
+    Swal.fire({
+      title: "Make Admin",
+      text: `You want to make ${user.email} an admin?`,
+      icon: "",
+      showCancelButton: true,
+      confirmButtonColor: "#4285f4",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirm",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/users/admin/${user._id}`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(),
+        }).then(() => {
+          toast.success("User role set to admin");
+        });
+      }
     });
   };
 
   return (
-    <Container>
-      <div className="overflow-x-auto">
+    
+    
+      <div className="overflow-x-auto mx-2 md:mx-4">
         <table className="table">
           {/* head */}
           <thead>
@@ -53,39 +81,39 @@ const ManageClasses = () => {
               <th>Image</th>
               <th>Name</th>
               <th>Email</th>
-              
+
               <th>Current role</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
-              <tr key={user._id} className="text-center">
+            {users.map((singleUser, index) => (
+              <tr key={singleUser._id} className="text-center">
                 <th>{index + 1}</th>
 
                 <td>
                   <img
-                    src={user.photo}
+                    src={singleUser.photo}
                     alt=""
                     className="h-8 rounded-full w-8"
                   />
                 </td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                
-                <td className="capitalize">{user.role}</td>
+                <td>{singleUser.name}</td>
+                <td>{singleUser.email}</td>
+
+                <td className="capitalize">{singleUser.role}</td>
                 <td>
                   <div className="flex gap-2">
                     <button
                       className="text-green-500 btn btn-xs"
-                      onClick={() => handleInstructor(user._id)}
-                      disabled={user.role === "instructor"}>
+                      onClick={() => handleInstructor(singleUser)}
+                      disabled={singleUser.role === "instructor" || singleUser.email === user.email}>
                       Make Instructor
                     </button>
                     <button
                       className="text-red-500 btn btn-xs"
-                      onClick={() => handleAdmin(user._id)}
-                      disabled={user.role === "admin"}>
+                      onClick={() => handleAdmin(singleUser)}
+                      disabled={singleUser.role === "admin"}>
                       Make Admin
                     </button>
                   </div>
@@ -95,7 +123,7 @@ const ManageClasses = () => {
           </tbody>
         </table>
       </div>
-    </Container>
+    
   );
 };
 

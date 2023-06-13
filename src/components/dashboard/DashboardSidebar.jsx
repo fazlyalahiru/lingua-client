@@ -4,10 +4,7 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { AuthContext } from "../../providerders/AuthProviders";
 import { BiBookBookmark, BiHomeSmile } from "react-icons/bi";
 import { HiOutlineAcademicCap } from "react-icons/hi2";
-import { instructorRequest } from "../../apis/user";
-import { toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 
 const Sidebar = () => {
   const { user, role, setRole } = useContext(AuthContext);
@@ -17,29 +14,29 @@ const Sidebar = () => {
     setToggle(event.target.checked);
   };
   // become an instructor
-  const handleInstructorRequest = () => {
-    Swal.fire({
-      title: "Become an instructor!",
-      text: "You won't be able switch back to student account.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#4285f4",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, switch it",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        instructorRequest(user)
-          .then((result) => {
-            setRole("instructor");
-            console.log(result);
-            toast.success("you are an instructor");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    });
-  };
+  // const handleInstructorRequest = () => {
+  //   Swal.fire({
+  //     title: "Become an instructor!",
+  //     text: "You won't be able switch back to student account.",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#4285f4",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, switch it",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       instructorRequest(user)
+  //         .then((result) => {
+  //           setRole("instructor");
+  //           console.log(result);
+  //           toast.success("you are an instructor");
+  //         })
+  //         .catch((err) => {
+  //           console.log(err);
+  //         });
+  //     }
+  //   });
+  // };
 
   // Become an admin
   // const handleAdminRequest = () => {};
