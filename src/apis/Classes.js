@@ -16,8 +16,8 @@ export const getApprovedClasses = async () => {
     const response = await fetch('http://localhost:5000/classes?status=approved', {
         method: "GET",
         headers: {
-          "content-type": "application/json",
-          authorization: `bearer ${localStorage.getItem("access-token")}`,
+            "content-type": "application/json",
+            authorization: `bearer ${localStorage.getItem("access-token")}`,
         },
     })
     const data = await response.json()
@@ -71,3 +71,15 @@ export const insertUser = classInfo => {
     }).then(res => res.json())
         .then(data => console.log(data))
 }
+
+// update classes
+export const updateClassSeat = async (courseId) => {
+
+    fetch(`http://localhost:5000/update-classes/${courseId}`, {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify()
+    }).then(res => res.json())
+};

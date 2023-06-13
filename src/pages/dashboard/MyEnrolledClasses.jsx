@@ -27,6 +27,7 @@ const MyEnrollClasses = () => {
               <th>Class name</th>
               <th>Instructor</th>
               <th>Available seat</th>
+              <th>enrolled Student</th>
               <th>Price</th>
               <th>Status</th>
             </tr>
@@ -45,6 +46,7 @@ const MyEnrollClasses = () => {
                 <td>{enroll.className}</td>
                 <td className="capitalize">{enroll.instructorInfo.name}</td>
                 <td>{enroll.totalSeat}</td>
+                <td>{enroll.enrolledStudent}</td>
                 <td>${enroll.price}</td>
                 <td>
                   <div className="flex gap-2">

@@ -11,13 +11,13 @@ const InstructorClasses = () => {
   const [AxiosSecure] = useAxiosSecure();
   const handleDeleteClass = (id) => {
     Swal.fire({
-      title: "Become an instructor!",
-      text: "You won't be able switch back to student account.",
-      icon: "warning",
+      title: "Delete the class",
+      text: "Are you sure you want to delete this class?",
+      icon: "",
       showCancelButton: true,
       confirmButtonColor: "#4285f4",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, switch it",
+      confirmButtonText: "Yes, delete it",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteSpecificClass(id)
@@ -77,7 +77,7 @@ const InstructorClasses = () => {
               <td>{instructorClass.className}</td>
               <td>{instructorClass.totalSeat}</td>
               <td>${instructorClass.price}</td>
-              <td>10</td>
+            <td>{instructorClass.enrolledStudent}</td>
               <td>
                 <p className=" capitalize bg-green-200 p-1 rounded-md">
                   {instructorClass.status}

@@ -7,6 +7,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import moment from "moment/moment";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { deleteSelectedClass } from "../../../apis/bookClass";
+import { updateClassSeat } from "../../../apis/Classes";
 
 const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
   const [axiosSecure] = useAxiosSecure();
@@ -18,14 +19,6 @@ const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
   const [paymentLoading, setPaymentLoading] = useState(false);
 
   useEffect(() => {
-    // // Create PaymentIntent as soon as the page loads
-    // fetch("http://localhost:5000/create-payment-intent", {
-    //   method: "POST",
-    //   headers: { "content-type": "application/json" },
-    //   body: JSON.stringify({ price }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => setClientSecret(data.clientSecret));
     if (singleClassInfo?.price) {
       axiosSecure
         .post("create-payment-intent", {
@@ -44,9 +37,6 @@ const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
       return;
     }
 
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
-    // each type of element.
     const card = elements.getElement(CardElement);
 
     if (card == null) {
@@ -95,6 +85,10 @@ const CheckoutForm = ({ singleClassInfo, closeModal, refetch }) => {
                 toast.success("Payment successfull");
                 refetch();
                 closeModal();
+                console.log(singleClassInfo);
+                updateClassSeat(singleClassInfo.classId).then((res) => {
+                  console.log(res);
+                });
               });
             }
           });
