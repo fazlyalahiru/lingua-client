@@ -109,14 +109,14 @@ const Login = () => {
             )}
 
             <button
-              className="shadow bg-[#42CBA8] hover:bg-black focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full"
+              className="shadow bg-[#4285f4] hover:bg-black focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full"
               type="submit">
               Sign In
             </button>
             <p>
               Not a member yet?
               <Link
-                className="ms-2 text-[#42CBA8] hover:text-black"
+                className="ms-2 text-[#4285f4] hover:text-black"
                 to="/register">
                 Register
               </Link>

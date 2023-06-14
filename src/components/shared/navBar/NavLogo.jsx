@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from '../../../assets/images/logo.png'
+import logo from '../../../../public/images/Lingua.png'
 
 const NavLogo = () => {
   return (
@@ -8,7 +8,7 @@ const NavLogo = () => {
         className=" md:block"
         src={logo}
         alt="logo"
-        width="100"
+        width="160"
         height="100"
       />
     </Link>

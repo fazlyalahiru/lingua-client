@@ -45,7 +45,7 @@ const Navbar = () => {
                     <NavLink
                       to="/"
                       className={({ isActive }) =>
-                        isActive ? "text-[#42CBA8] #ff5722" : "text-black"
+                        isActive ? "text-[#4285f4] #ff5722" : "text-black"
                       }>
                       Home
                     </NavLink>
@@ -54,7 +54,7 @@ const Navbar = () => {
                     <NavLink
                       to="/instructors"
                       className={({ isActive }) =>
-                        isActive ? "text-[#42CBA8]" : "text-black"
+                        isActive ? "text-[#4285f4]" : "text-black"
                       }>
                       Instructors
                     </NavLink>
@@ -63,7 +63,7 @@ const Navbar = () => {
                     <NavLink
                       to="/classes"
                       className={({ isActive }) =>
-                        isActive ? "text-[#42CBA8]" : "text-black"
+                        isActive ? "text-[#4285f4]" : "text-black"
                       }>
                       Classes
                     </NavLink>
@@ -72,7 +72,7 @@ const Navbar = () => {
                     <NavLink
                       to="/dashboard"
                       className={({ isActive }) =>
-                        isActive ? "text-[#42CBA8]" : "text-black"
+                        isActive ? "text-[#4285f4]" : "text-black"
                       }>
                       Dashboard
                     </NavLink>
@@ -86,16 +86,16 @@ const Navbar = () => {
                 </Link>
               </div>
               {/* login */}
-              <div className="flex justify-end">
+              <div className="flex justify-end ">
                 {user ? (
                   <div className="hidden lg:block">
                     <UserProfile></UserProfile>
                   </div>
                 ) : (
-                  <div className="hidden lg:block">
-                    <div className="relative ">
+                  <div className="hidden lg:block z-10">
+                    <div className="relative z-10">
                       <p
-                        className="flex justify-center items-center gap-2 bg-[#42CBA8] text-white px-2 md:px-6 py-1 md:py-2 rounded cursor-pointer"
+                        className="flex justify-center items-center gap-2 bg-[#4285f4] text-white px-2 md:px-6 py-1 md:py-2 rounded cursor-pointer"
                         onClick={() => setIsGetStartedOpen(!isGetStartedOpen)}>
                         <span>Get Started</span>
                         <AiOutlineCaretDown></AiOutlineCaretDown>
@@ -198,7 +198,7 @@ const Navbar = () => {
                               <div className="flex justify-start">
                                 <div className="relative ">
                                   <p
-                                    className="flex justify-center items-center gap-2 bg-[#42CBA8] text-white px-2 py-1 rounded cursor-pointer"
+                                    className="flex justify-center items-center gap-2 bg-[#4285f4] text-white px-2 py-1 rounded cursor-pointer"
                                     onClick={() =>
                                       setIsGetStartedOpen(!isGetStartedOpen)
                                     }>

@@ -9,24 +9,22 @@ import { Link } from "react-router-dom";
 
 const Classes = () => {
   const [classes, setClasses] = useState([]);
-  console.log(classes);
   const { user } = useContext(AuthContext);
-
+  const [isAdmin, setIsAdmin] = useState([])
+ 
   useEffect(() => {
     getApprovedClasses().then((data) => {
       setClasses(data);
     });
   }, []);
-  // useEffect(() => {
-  //   // Fetch pending data
-  //   axios.get('/classes?status=approved')
-  //     .then(response => {
-  //       setClasses(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching pending data:', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch(`http://localhost:5000/is-admin?email=${user?.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        
+        setIsAdmin(data);
+      });
+  }, [user]);
 
   const handleEnrollInfo = (classInfo) => {
     console.log(classInfo);
@@ -92,24 +90,18 @@ const Classes = () => {
                 <h2 className="text-lg font-semibold pt-2">
                   {className.className}
                 </h2>
-                <div className="flex justify-between items-center">
-                  <p className="text-[#4285f4] text-xl font-semibold">
-                    ${className.price}
-                  </p>
-
-                  <div>
-                    <div className="flex  items-center gap-2 pt-4">
-                      <BsJournalBookmark className="text-gray-800 text-sm"></BsJournalBookmark>
-                      <p className="text-gray-800 text-sm">
-                        Available seat: {className.totalSeat}
-                      </p>
-                    </div>
-                    <div className="flex  items-center gap-2 pb-4 pt-1">
-                      <FaUserCheck className="text-gray-800 text-sm"></FaUserCheck>
-                      <p className="text-gray-800 text-sm">
-                        Enrolled Students: {className.enrolledStudent}
-                      </p>
-                    </div>
+                <div className="flex items-center justify-between py-3">
+                  <div className="flex  items-center gap-2 ">
+                    <BsJournalBookmark className="text-gray-800 text-sm"></BsJournalBookmark>
+                    <p className="text-gray-800 text-sm">
+                      Available seat: {className.totalSeat}
+                    </p>
+                  </div>
+                  <div className="flex  items-center gap-2  ">
+                    <FaUserCheck className="text-gray-800 text-sm"></FaUserCheck>
+                    <p className="text-gray-800 text-sm">
+                      Enrolled: {className.enrolledStudent}
+                    </p>
                   </div>
                 </div>
                 {user ? (
@@ -117,7 +109,7 @@ const Classes = () => {
                     onClick={() => handleEnrollInfo(className)}
                     disabled={
                       className.instructorInfo.email === user?.email ||
-                      className.totalSeat <= 0
+                      className.totalSeat <= 0 || isAdmin.role === 'admin'
                     }
                     className="btn btn-block btn-sm capitalize bg-[#4285f4] text-white hover:bg-black">
                     Book now

@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../providerders/AuthProviders";
 import { toast } from "react-hot-toast";
-// import { HiEye, HiEyeOff } from "react-icons/hi";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { insertUser } from "../../apis/user";
 import { AiOutlineCloudUpload } from "react-icons/ai";
@@ -25,7 +24,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { singnInWithGoogle, createUser, updateProfileInfo } =
+  const { singnInWithGoogle, createUser, updateProfileInfo, setLoading } =
     useContext(AuthContext);
   // confirm password
   const [passwordMatch, setPasswordMatch] = useState(true);
@@ -35,34 +34,7 @@ const Register = () => {
     setPasswordMatch(confirmPassword === password);
   };
 
-  // handle submit form
-  // const onSubmit = (data) => {
-  //   const image = data.image[0];
-  //   uploadImage(image).then((res) => {
-  //     createUser(data.email, data.password)
-  //       .then((result) => {
-  //         updateProfileInfo(data.name, data.photo)
-  //           .then(() => {
-  //             console.log(result.user.email);
-  //             insertUser(result.user);
-  //             toast.success("User created successfully");
-  //             reset();
-  //             navigate(from, { replace: true });
-  //           })
-  //           .catch((err) => {
-  //             console.log(err);
-  //             const errorMessage = err.message;
-  //             toast.error(errorMessage);
-  //           });
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //         const errorMessage = err.message;
-  //         toast.error(errorMessage);
-  //       });
-  //   });
-  // };
-
+  
   const onSubmit = (data) => {
     const image = data.image[0];
     uploadImage(image).then((res) => {
@@ -73,6 +45,7 @@ const Register = () => {
       createUser(email, password)
         .then((result) => {
           updateProfileInfo(name, photoURL).then(() => {
+            setLoading(true)
             insertUser(result.user);
             toast.success("User created successfully!");
             reset();
@@ -129,26 +102,6 @@ const Register = () => {
             {errors.email?.type === "required" && (
               <p className="text-red-500">Email is required</p>
             )}
-
-            {/* <input
-              type="url"
-              {...register("photo", { required: true })}
-              placeholder="Photo URL"
-              className="input border border-gray-300 w-full block"
-            />
-            {errors.photo?.type === "required" && (
-              <p className="text-red-500">Photo is required</p>
-            )} */}
-
-            {/* <input
-              type="tel"
-              {...register("phone")}
-              placeholder="Phone number"
-              className="input border border-gray-300 w-full block"
-            />
-            {errors.phone && (
-              <span className="text-red-500">{errors.phone.message}</span>
-            )} */}
 
             <select
               defaultValue="Gender"
@@ -255,14 +208,14 @@ const Register = () => {
               )}
 
             <button
-              className="shadow bg-[#42CBA8] hover:bg-black focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full"
+              className="shadow bg-[#4285f4] hover:bg-black focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded w-full"
               type="submit">
               Register
             </button>
             <p>
               Already registered?
               <Link
-                className="ms-2 text-[#42CBA8] hover:text-black"
+                className="ms-2 text-[#4285f4] hover:text-black"
                 to="/login">
                 Login
               </Link>

@@ -9,8 +9,8 @@ const Slider = () => {
   return (
     <Carousel
       showThumbs={false}
-    //   showStatus={false}
-        // autoPlay={true}
+      showStatus={false}
+        autoPlay={true}
       infiniteLoop={true}>
       <div className="relative ">
         <img
@@ -27,7 +27,7 @@ const Slider = () => {
             We are offering wide range of course in different languages. You can
             choose wisely.
           </p>
-          <Link to="/classes" className="bg-blue-500 text-white py-2 px-4 mt-4 mb-4 md:mb-0">
+          <Link to="/classes" className="bg-[#4285f4] text-white py-2 px-4 mt-4 mb-4 md:mb-0 rounded-sm">
             All Classes
           </Link>
         </div>
@@ -47,7 +47,7 @@ const Slider = () => {
             We are offering wide range of course in different languages. You can
             choose wisely.
           </p>
-          <Link to="/classes" className="bg-blue-500 text-white py-2 px-4 mt-4 mb-4 md:mb-0">
+          <Link to="/classes" className="bg-[#4285f4] text-white py-2 px-4 mt-4 mb-4 md:mb-0 rounded-sm">
             All Classes
           </Link>
         </div>
@@ -67,7 +67,7 @@ const Slider = () => {
             We are offering wide range of course in different languages. You can
             choose wisely.
           </p>
-          <Link to="/classes" className="bg-blue-500 text-white py-2 px-4 mt-4 mb-4 md:mb-0">
+          <Link to="/classes" className="bg-[#4285f4] text-white py-2 px-4 mt-4 mb-4 md:mb-0 rounded-sm">
             All Classes
           </Link>
         </div>

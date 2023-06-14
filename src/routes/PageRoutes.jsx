@@ -15,11 +15,13 @@ import PaymentHistory from "../pages/dashboard/PaymentHistory";
 import ManageClasses from "../pages/dashboard/ManageClasses";
 import ManageUsers from "../pages/dashboard/ManageUsers";
 import Instructors from "../pages/Instructors";
+import ErrorPage from "../pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",

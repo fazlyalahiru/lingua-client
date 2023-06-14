@@ -18,7 +18,7 @@ const Instructors = () => {
         {instructors.map((instructor, index) => (
           <div key={index}>
             <div className="shadow rounded p-5 hover:shadow-md hover:scale-105 transition-transform duration-300 my-6 md:my-0">
-              <img className="h-64" src={instructor.photo} alt="" />
+              <img className="h-64 w-full" src={instructor.photo} alt="" />
               <p className=" text-xl font-semibold text-black capitalize pt-4">
                 {instructor?.name}
               </p>
