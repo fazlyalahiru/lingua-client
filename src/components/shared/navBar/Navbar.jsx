@@ -278,28 +278,28 @@ const Navbar = () => {
                             )}
                           </div>
                           <nav>
-                            <ul className="space-y-2.5 mt-6">
+                            <ul className="space-y-3 mt-6">
                               <li
-                                className="flex items-center gap-1"
+                                className="flex items-center gap-1 text-lg"
                                 onClick={() => setIsNavOpen(false)}>
                                 <BiHomeSmile></BiHomeSmile>
                                 <Link to="/">Home</Link>
                               </li>
                               <li
-                                className="flex items-center gap-1"
+                                className="flex items-center gap-1 text-lg"
                                 onClick={() => setIsNavOpen(false)}>
                                 <HiOutlineAcademicCap></HiOutlineAcademicCap>
                                 <Link to="/instructors">Instructors</Link>
                               </li>
                               <li
-                                className="flex items-center gap-1"
+                                className="flex items-center gap-1 text-lg"
                                 onClick={() => setIsNavOpen(false)}>
                                 <BiBookBookmark></BiBookBookmark>
                                 <Link to="/classes">Classes</Link>
                               </li>
                               {user && (
                                 <li
-                                  className="flex items-center gap-1"
+                                  className="flex items-center gap-1 text-lg"
                                   onClick={() => setIsNavOpen(false)}>
                                   <MdOutlineSpaceDashboard></MdOutlineSpaceDashboard>
                                   <Link to="/dashboard">Dashboard</Link>
