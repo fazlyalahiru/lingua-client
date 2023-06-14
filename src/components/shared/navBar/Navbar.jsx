@@ -3,7 +3,7 @@ import Container from "../Container";
 import { GrInsecure } from "react-icons/gr";
 import { AiOutlineCaretDown, AiOutlineUserAdd } from "react-icons/ai";
 import { HiOutlineBars3BottomRight } from "react-icons/hi2";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import NavLogo from "./NavLogo";
 import { AuthContext } from "../../../providerders/AuthProviders";
 import UserProfile from "./UserProfile";
@@ -12,11 +12,23 @@ import { HiOutlineAcademicCap } from "react-icons/hi";
 import { MdOutlineLogout, MdOutlineSpaceDashboard } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { Transition } from "@headlessui/react";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isGetStartedOpen, setIsGetStartedOpen] = useState(false);
+  const [theme, setTheme] = useState("light");
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+  const handleDarkMode = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
   // click dropdown to close nav
   const handleMobileNavDropdown = () => {
     setIsGetStartedOpen(false);
@@ -33,11 +45,11 @@ const Navbar = () => {
       });
   };
   return (
-    <div className="shadow-sm py-2 ">
+    <div className="shadow-sm py-2 bg-white dark:bg-[#0A1E33]">
       <Container>
         <div className="py-2 ">
           <div>
-            <div className="relative grid grid-cols-3 justify-center items-center">
+            <div className="relative grid grid-cols-3 justify-center items-center ">
               {/* nav items */}
               <div>
                 <ul className="items-center hidden space-x-8 lg:flex  font-semibold">
@@ -45,7 +57,9 @@ const Navbar = () => {
                     <NavLink
                       to="/"
                       className={({ isActive }) =>
-                        isActive ? "text-[#4285f4] #ff5722" : "text-black"
+                        isActive
+                          ? "text-[#4285f4] #ff5722"
+                          : "text-black dark:text-gray-300"
                       }>
                       Home
                     </NavLink>
@@ -54,7 +68,9 @@ const Navbar = () => {
                     <NavLink
                       to="/instructors"
                       className={({ isActive }) =>
-                        isActive ? "text-[#4285f4]" : "text-black"
+                        isActive
+                          ? "text-[#4285f4]"
+                          : "text-black dark:text-gray-300"
                       }>
                       Instructors
                     </NavLink>
@@ -63,7 +79,9 @@ const Navbar = () => {
                     <NavLink
                       to="/classes"
                       className={({ isActive }) =>
-                        isActive ? "text-[#4285f4]" : "text-black"
+                        isActive
+                          ? "text-[#4285f4]"
+                          : "text-black dark:text-gray-300"
                       }>
                       Classes
                     </NavLink>
@@ -72,7 +90,9 @@ const Navbar = () => {
                     <NavLink
                       to="/dashboard"
                       className={({ isActive }) =>
-                        isActive ? "text-[#4285f4]" : "text-black"
+                        isActive
+                          ? "text-[#4285f4]"
+                          : "text-black dark:text-gray-300"
                       }>
                       Dashboard
                     </NavLink>
@@ -86,7 +106,19 @@ const Navbar = () => {
                 </Link>
               </div>
               {/* login */}
-              <div className="flex justify-end ">
+              <div className="flex md:justify-end ">
+                <div className="flex items-center ">
+                  <div className="hidden md:block mr-4">
+                    <button
+                      onClick={handleDarkMode}
+                      className="flex items-center  gap-1 text-gray-600 dark:text-gray-300 focus:outline-none font-medium">
+                      {theme === "dark" ? <FaSun /> : <FaMoon />}
+                      <span className="text-sm">
+                        {theme === "dark" ? "Light" : "Dark"}
+                      </span>
+                    </button>
+                  </div>
+                </div>
                 {user ? (
                   <div className="hidden lg:block">
                     <UserProfile></UserProfile>
@@ -135,15 +167,27 @@ const Navbar = () => {
                 <div>
                   <NavLogo></NavLogo>
                 </div>
-                <div>
+                <div className="flex justify-center items-center">
+                  <div className="block md:hidden">
+                    <button
+                      onClick={handleDarkMode}
+                      className="flex items-center  gap-1 text-gray-600 dark:text-gray-300 focus:outline-none">
+                      {theme === "dark" ? <FaSun /> : <FaMoon />}
+                      <span className="text-sm">
+                        {theme === "dark" ? "Light" : "Dark"}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+                <div className="flex justify-center items-center">
                   <button>
                     <HiOutlineBars3BottomRight
-                      className="w-5 text-gray-600"
+                      className="w-5 text-gray-600 dark:text-gray-300"
                       onClick={() =>
                         setIsNavOpen(true)
                       }></HiOutlineBars3BottomRight>
                   </button>
-                </div>{" "}
+                </div>
               </div>
               <Transition
                 show={isNavOpen}
@@ -211,9 +255,9 @@ const Navbar = () => {
                                         <NavLink
                                           to="/login"
                                           onClick={handleMobileNavDropdown}
-                                          className="hover:bg-gray-100 transition-opacity p-2">
+                                          className="hover:bg-gray-100 transition-opacity p-2 ">
                                           <span className="flex justify-center items-center gap-1">
-                                            <GrInsecure></GrInsecure>{" "}
+                                            <GrInsecure></GrInsecure>
                                             <p>Login</p>
                                           </span>
                                         </NavLink>

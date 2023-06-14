@@ -7,7 +7,7 @@ export const insertUser = user => {
         role: 'student'
     }
     
-    fetch(`http://localhost:5000/users/${user?.email}`, {
+    fetch(`https://lingua-server.vercel.app/users/${user?.email}`, {
         method: 'PUT',
         headers: {
             'content-type': 'application/json'
@@ -22,7 +22,7 @@ export const instructorRequest =async user => {
         role: 'instructor',
     }
     console.log(currentUser);
-    return fetch(`http://localhost:5000/users/${user?.email}`, {
+    return fetch(`https://lingua-server.vercel.app/users/${user?.email}`, {
         method: 'PUT',
         headers: {
             'content-type': 'application/json'
@@ -33,7 +33,7 @@ export const instructorRequest =async user => {
 
 // get role of a user
 export const userRole = async email =>{
-    const response = await fetch(`http://localhost:5000/users/${email}`)
+    const response = await fetch(`https://lingua-server.vercel.app/users/${email}`)
     const user = await response.json()
     return user?.role; 
 }

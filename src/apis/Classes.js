@@ -1,5 +1,5 @@
 export const uploadClass = async classInfo => {
-    const res = await fetch('http://localhost:5000/classes', {
+    const res = await fetch('https://lingua-server.vercel.app/classes', {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
@@ -13,7 +13,7 @@ export const uploadClass = async classInfo => {
 
 // get approved classes 
 export const getApprovedClasses = async () => {
-    const response = await fetch('http://localhost:5000/classes?status=approved', {
+    const response = await fetch('https://lingua-server.vercel.app/classes?status=approved', {
         method: "GET",
         headers: {
             "content-type": "application/json",
@@ -26,7 +26,7 @@ export const getApprovedClasses = async () => {
 
 // get pending classes
 export const getPendingClasses = async () => {
-    const response = await fetch('http://localhost:5000/classes?status=approved')
+    const response = await fetch('https://lingua-server.vercel.app/classes?status=approved')
     const data = await response.json()
     return data;
 }
@@ -34,7 +34,7 @@ export const getPendingClasses = async () => {
 
 // Specific instructor clases
 // export const getSpecificInstructorClasses = async email => {
-//     const response = await fetch(`http://localhost:5000/classes/${email}`, {
+//     const response = await fetch(`https://lingua-server.vercel.app/classes/${email}`, {
 //         headers: {
 //             authorization: `bearer ${localStorage.getItem('access-token')}`
 //         }
@@ -46,7 +46,7 @@ export const getPendingClasses = async () => {
 // delete intructor speciific one class 
 
 export const deleteSpecificClass = async id => {
-    const res = await fetch(`http://localhost:5000/classes/${id}`, {
+    const res = await fetch(`https://lingua-server.vercel.app/classes/${id}`, {
         method: 'DELETE',
         headers: {
             'content-type': 'application/json'
@@ -62,7 +62,7 @@ export const insertUser = classInfo => {
         status: 'approved',
     }
 
-    fetch(`http://localhost:5000/classes/${classInfo?.classId}`, {
+    fetch(`https://lingua-server.vercel.app/classes/${classInfo?.classId}`, {
         method: 'PUT',
         headers: {
             'content-type': 'application/json'
@@ -75,7 +75,7 @@ export const insertUser = classInfo => {
 // update classes
 export const updateClassSeat = async (courseId) => {
 
-    fetch(`http://localhost:5000/update-classes/${courseId}`, {
+    fetch(`https://lingua-server.vercel.app/update-classes/${courseId}`, {
         method: 'PUT',
         headers: {
             'content-type': 'application/json'
@@ -83,3 +83,19 @@ export const updateClassSeat = async (courseId) => {
         body: JSON.stringify()
     }).then(res => res.json())
 };
+
+// update class data 
+// update a room
+export const updateClassInfo = async (updatedClass, id) => {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/update-class-info/${id}`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('access-token')}`,
+      },
+      body: JSON.stringify(updatedClass),
+    })
+  
+    const data = await response.json()
+    return data
+  }

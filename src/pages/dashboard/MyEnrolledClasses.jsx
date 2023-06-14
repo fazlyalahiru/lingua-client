@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { AuthContext } from "../../providerders/AuthProviders";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Container from "../../components/shared/Container";
+
 const MyEnrollClasses = () => {
   const [AxiosSecure] = useAxiosSecure();
   const { user, loading } = useContext(AuthContext);
@@ -16,7 +18,7 @@ const MyEnrollClasses = () => {
   });
 
   return (
-    
+    <Container>
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
@@ -26,8 +28,6 @@ const MyEnrollClasses = () => {
               <th>Image</th>
               <th>Class name</th>
               <th>Instructor</th>
-              <th>Available seat</th>
-              <th>enrolled Student</th>
               <th>Price</th>
               <th>Status</th>
             </tr>
@@ -45,8 +45,6 @@ const MyEnrollClasses = () => {
                 </td>
                 <td>{enroll.className}</td>
                 <td className="capitalize">{enroll.instructorInfo.name}</td>
-                <td>{enroll.totalSeat}</td>
-                <td>{enroll.enrolledStudent}</td>
                 <td>${enroll.price}</td>
                 <td>
                   <div className="flex gap-2">
@@ -60,7 +58,7 @@ const MyEnrollClasses = () => {
           </tbody>
         </table>
       </div>
-    
+    </Container>
   );
 };
 

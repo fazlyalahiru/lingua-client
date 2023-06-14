@@ -30,7 +30,7 @@ const ManageClasses = () => {
       confirmButtonText: "Yes, do it",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/users/instructor/${user._id}`, {
+        fetch(`https://lingua-server.vercel.app/users/instructor/${user._id}`, {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -55,7 +55,7 @@ const ManageClasses = () => {
       confirmButtonText: "Confirm",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/users/admin/${user._id}`, {
+        fetch(`https://lingua-server.vercel.app/users/admin/${user._id}`, {
           method: "POST",
           headers: {
             "content-type": "application/json",

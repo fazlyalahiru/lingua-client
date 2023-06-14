@@ -6,6 +6,7 @@ import { BsJournalBookmark } from "react-icons/bs";
 import { toast } from "react-hot-toast";
 import { FaUserCheck } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import PageTitle from "../../components/utils/PageTitle";
 
 const Classes = () => {
   const [classes, setClasses] = useState([]);
@@ -18,10 +19,9 @@ const Classes = () => {
     });
   }, []);
   useEffect(() => {
-    fetch(`http://localhost:5000/is-admin?email=${user?.email}`)
+    fetch(`https://lingua-server.vercel.app/is-admin?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
-        
         setIsAdmin(data);
       });
   }, [user]);
@@ -37,7 +37,7 @@ const Classes = () => {
         email: user?.email,
       },
     };
-    fetch("http://localhost:5000/cart", {
+    fetch("https://lingua-server.vercel.app/cart", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const Classes = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.insertedId) {
-          toast.success("Added! Confirm payment to confirm your seat");
+          toast.success("Added! Confirm payment to continue");
         } else {
           toast.error("You already Added this class");
         }
@@ -61,6 +61,7 @@ const Classes = () => {
   return (
     <>
       <Container>
+        <PageTitle title="All Classes" subTitle="Find Amazing language classes"></PageTitle>
         <div className="md:grid grid-cols-4 gap-4 py-4">
           {classes.map((className, index) => (
             <div key={index}>

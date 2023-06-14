@@ -24,7 +24,7 @@ const UserProfile = () => {
       />
       <MdOutlineLogout
         onClick={handleLogout}
-        className="text-2xl cursor-pointer"
+        className="text-2xl cursor-pointer dark:text-gray-300"
         title="Logout"></MdOutlineLogout>
     </div>
   );

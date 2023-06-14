@@ -15,7 +15,7 @@ const ManageClasses = () => {
 
   //   handle approve class
   const handleApproveClass = (classId) => {
-    fetch(`http://localhost:5000/classes/approve/${classId}`, {
+    fetch(`https://lingua-server.vercel.app/classes/approve/${classId}`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -29,7 +29,7 @@ const ManageClasses = () => {
 
   //   handle deniyed class
   const handleDeniedClass = (classId) => {
-    fetch(`http://localhost:5000/classes/deny/${classId}`, {
+    fetch(`https://lingua-server.vercel.app/classes/deny/${classId}`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

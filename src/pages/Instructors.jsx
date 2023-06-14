@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import Container from "../components/shared/Container";
+import PageTitle from "../components/utils/PageTitle";
 
 const Instructors = () => {
   const [instructors, setInstructors] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/instructors`)
+    fetch(`https://lingua-server.vercel.app/instructors`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -14,6 +15,7 @@ const Instructors = () => {
   }, []);
   return (
     <Container>
+      <PageTitle title="Experienced Instructors" subTitle="Find country best instructors on your hand"></PageTitle>
       <div className="md:grid grid-cols-4 gap-4 py-4">
         {instructors.map((instructor, index) => (
           <div key={index}>
